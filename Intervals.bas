@@ -147,3 +147,33 @@ XtX = WorksheetFunction.MMult(Xt, Xs)
 H = WorksheetFunction.MMult(Xs, WorksheetFunction.MMult(WorksheetFunction.MInverse(XtX), Xt))
 HatMatrix = H(index1, index2)
 End Function
+
+'Return an array of {count} number of points eqaly spaced along the span of VectorObject
+Public Function EqualSpace(VectorObject, count)
+Max = WorksheetFunction.Max(VectorObject)
+Min = WorksheetFunction.Min(VectorObject)
+
+Delta = (Max - Min) / (count - 1)
+Dim ReturnVector As Variant
+ReDim ReturnVector(1 To count, 1 To 1)
+For i = 1 To count
+  ReturnVector(i, 1) = Min + Delta * (i - 1)
+Next i
+EqualSpace = ReturnVector
+End Function
+
+'Return an array of confidence Intervals
+Public Function ConfVector(Ys, Xs, alpha, count, plusorminus)
+Xinput = EqualSpace(Xs, count)
+Dim ReturnVector As Variant
+ReDim ReturnVector(1 To count, 1 To 1)
+For i = 1 To count
+  If plusorminus = "plus" Then
+    ReturnVector(i, 1) = WorksheetFunction.Forecast(Xinput(i, 1), Ys, Xs) + ConfInt(Xinput(i, 1), Ys, Xs, alpha)
+  Else
+    ReturnVector(i, 1) = WorksheetFunction.Forecast(Xinput(i, 1), Ys, Xs) - ConfInt(Xinput(i, 1), Ys, Xs, alpha)
+  End If
+Next i
+ConfVector = ReturnVector
+End Function
+
