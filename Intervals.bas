@@ -148,6 +148,10 @@ H = WorksheetFunction.MMult(Xs, WorksheetFunction.MMult(WorksheetFunction.MInver
 HatMatrix = H(index1, index2)
 End Function
 
+Public Function Leverage(Xs, index)
+Leverage = HatMatrix(Xs, index, index)
+End Function
+                    
 'Return an array of {count} number of points eqaly spaced along the span of VectorObject
 Public Function EqualSpace(VectorObject, count)
 Max = WorksheetFunction.Max(VectorObject)
