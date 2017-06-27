@@ -167,17 +167,41 @@ EqualSpace = ReturnVector
 End Function
 
 'Return an array of confidence Intervals
-Public Function ConfVector(Ys, Xs, alpha, count, plusorminus)
+Public Function Forecast(X, Ys, Xs, Optional RTO = False)
+  If RTO Then
+    LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
+    Forecast = X * LinEst(1, 1)
+  Else
+    Forecast = WorksheetFunction.Forecast(X, Ys, Xs)
+  End If
+End Function
+
+'Return an array of confidence Intervals
+Public Function ConfVector(Ys, Xs, alpha, count, plusorminus, Optional RTO = False)
 Xinput = EqualSpace(Xs, count)
 Dim ReturnVector As Variant
 ReDim ReturnVector(1 To count, 1 To 1)
 For i = 1 To count
   If plusorminus = "plus" Then
-    ReturnVector(i, 1) = WorksheetFunction.Forecast(Xinput(i, 1), Ys, Xs) + ConfInt(Xinput(i, 1), Ys, Xs, alpha)
+    ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) + ConfInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
   Else
-    ReturnVector(i, 1) = WorksheetFunction.Forecast(Xinput(i, 1), Ys, Xs) - ConfInt(Xinput(i, 1), Ys, Xs, alpha)
+    ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) - ConfInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
   End If
 Next i
 ConfVector = ReturnVector
 End Function
 
+'Return an array of prediction Intervals
+Public Function PredVector(Ys, Xs, alpha, count, plusorminus, Optional RTO = False)
+Xinput = EqualSpace(Xs, count)
+Dim ReturnVector As Variant
+ReDim ReturnVector(1 To count, 1 To 1)
+For i = 1 To count
+  If plusorminus = "plus" Then
+    ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) + PredInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
+  Else
+    ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) - PredInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
+  End If
+Next i
+PredVector = ReturnVector
+End Function
