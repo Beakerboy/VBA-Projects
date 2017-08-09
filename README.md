@@ -10,3 +10,6 @@ Ellipse:
   
 LOESS:
   This function applys the LOESS smoothing algorithm to a set of data
+  
+Violin:
+  Violin Charts in Excel. Kernel Denisty estimates are produced from descrete data to produce range objects that can be plotted in a chart.
