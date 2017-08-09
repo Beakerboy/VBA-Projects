@@ -11,7 +11,7 @@ ElseIf bandwidth = "Scott" Then
 End If
 Sum = 0
 For i = 1 To n
-  k = (x - Data(i)) / bandwidth
+  k = (x - Data(i,1)) / bandwidth
   If kernel = "gaussian" Then
     kernelValue = gaussianKernel(k)
   ElseIf kernel = "uniform" Then
