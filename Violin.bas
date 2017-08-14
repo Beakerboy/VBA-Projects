@@ -33,6 +33,27 @@ Next i
 KernelDensity = Sum / n / bandwidth
 End Function
 
+'Produce a Kernel Density given a column of values and a column of frequencies
+Public Function KernelDensityFromHist(x, Data, Optional kernel = "gaussian", Optional bandwidth = "Silverman")
+
+  n = WorksheetFunction.Count(Data) / 2
+  Sum = 0
+  For i = 1 To n
+    Sum = Sum + Data(i, 2)
+  Next i
+  Dim NewData As Variant
+  ReDim NewData(1 To Sum, 1 To 1)
+  Dim ArrayCount
+  ArrayCount = 1
+  For i = 1 To n
+    For j = 1 To Data(i, 2)
+      NewData(ArrayCount, 1) = Data(i, 1)
+      ArrayCount = ArrayCount + 1
+    Next j
+  Next i
+  
+  KernelDensityFromHist = KernelDensity(x, NewData, kernel, bandwidth)
+End Function
 
 Private Function uniformKernel(x)
   If Abs(x) > 1 Then
