@@ -102,46 +102,45 @@ Private Function triweightKernel(x)
 End Function
 
 Private Function tricubeKernel(x)
-If Abs(x) > 1 Then
-k = 0
-Else
-k = 70 / 31 * (1 - Abs(x) ^ 3) ^ 3
-End If
-tricubeKernel = k
+  If Abs(x) > 1 Then
+    k = 0
+  Else
+    k = 70 / 31 * (1 - Abs(x) ^ 3) ^ 3
+  End If
+  tricubeKernel = k
 End Function
 
 Private Function gaussianKernel(x)
-gaussianKernel = WorksheetFunction.Norm_S_Dist(x, False)
+  gaussianKernel = WorksheetFunction.Norm_S_Dist(x, False)
 End Function
 
 'Create a Violin Chart
 Public Function Violin(Data, Optional XorY = "Y", Optional Position = 1, Optional ScalingFactor = 1)
-' Data: a range of data
-' XorY: return the X or Y range
-' LeftorRight: return the data to the left or right of the position
-' Position: for multiple datasets, where to position the center
-' ScalingFactor: The amount to scale the width of the violin to prevent overlap
-mu = WorksheetFunction.Average(Data)
-sigma = WorksheetFunction.StDev(Data)
-Dim YVector As Variant
-ReDim YVector(1 To 82, 1 To 1)
-y = mu - 4 * sigma
-For i = 1 To 41
-  YVector(i, 1) = y
-  YVector(83 - i, 1) = y
-  y = y + sigma / 5
-Next i
-If XorY = "Y" Then
-  Violin = YVector
-Else
-  Dim XVector As Variant
-  ReDim XVector(1 To 82, 1 To 1)
+  ' Data: a range of data
+  ' XorY: return the X or Y range
+  ' Position: for multiple datasets, where to position the center on the x axis
+  ' ScalingFactor: The amount to scale the width of the violin to prevent overlap
+  mu = WorksheetFunction.Average(Data)
+  sigma = WorksheetFunction.StDev(Data)
+  Dim YVector As Variant
+  ReDim YVector(1 To 82, 1 To 1)
+  y = mu - 4 * sigma
   For i = 1 To 41
-    x = KernelDensity(YVector(i, 1), Data) / ScalingFactor / 3
-    XVector(i, 1) = Position - x
-    XVector(83 - i, 1) = Position + x
+    YVector(i, 1) = y
+    YVector(83 - i, 1) = y
+    y = y + sigma / 5
   Next i
-  Violin = XVector
-End If
+  If XorY = "Y" Then
+   Violin = YVector
+  Else
+    Dim XVector As Variant
+    ReDim XVector(1 To 82, 1 To 1)
+    For i = 1 To 41
+      x = KernelDensity(YVector(i, 1), Data) / ScalingFactor / 3
+      XVector(i, 1) = Position - x
+      XVector(83 - i, 1) = Position + x
+    Next i
+    Violin = XVector
+  End If
 End Function
 
