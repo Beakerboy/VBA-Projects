@@ -66,6 +66,7 @@ Eigen(2, 2) = Eigenvalue2
 Eigenvalues = Eigen
 End Function
 
+'Calculate unit eigenvectors from a covarience matrix
 Function Eigenvectors(Covarience)
 Dim ReturnMatrix As Variant
 ReDim ReturnMatrix(1 To 2, 1 To 2)
