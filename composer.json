@@ -1,0 +1,20 @@
+{
+  "name": "beakerboy/vba-projects",
+  "homepage": "https://github.com/Beakerboy/VBA-SQL-Library/",
+  "require-dev": {
+    "beakerboy/vba_tokenizer": "dev-master"
+  },
+  "repositories": [
+    {
+        "type": "git",
+        "url": "https://github.com/Beakerboy/VBA_Tokenizer"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Kevin Nowaczyk",
+      "homepage": "https://github.com/Beakerboy",
+      "role": "Lead developer"
+    }
+  ]
+}
