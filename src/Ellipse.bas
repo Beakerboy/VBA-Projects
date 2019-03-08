@@ -1,98 +1,102 @@
-'From:
-'http://stackoverflow.com/questions/3417028/ellipse-around-the-data-in-matlab
-
+' Function: Ellipse
+' Given a set of data, produce a confidence ellipse at a given standard deviation
+'
+' http://stackoverflow.com/questions/3417028/ellipse-around-the-data-in-matlab
 Function Ellipse(Data, sigma, Optional NumPoints = 11)
 
-p = 2 * WorksheetFunction.Norm_S_Dist(sigma, True) - 1
-chi = WorksheetFunction.ChiSq_Inv(p, 2)
-Dim Averages As Variant
-ReDim Averages(1 To 2)
-Averages(1) = WorksheetFunction.Average(Application.Index(Data, , 1))
-Averages(2) = WorksheetFunction.Average(Application.Index(Data, , 2))
-'Calculate yhe covarience matrix of the data
-Covarience = CovarienceMatrix(Data)
+    p = 2 * WorksheetFunction.Norm_S_Dist(sigma, True) - 1
+    chi = WorksheetFunction.ChiSq_Inv(p, 2)
+    Dim Averages As Variant
+    ReDim Averages(1 To 2)
+    Averages(1) = WorksheetFunction.Average(Application.Index(Data, , 1))
+    Averages(2) = WorksheetFunction.Average(Application.Index(Data, , 2))
+    'Calculate yhe covarience matrix of the data
+    Covarience = CovarienceMatrix(Data)
 
-'Scale the data by the confidence interval
-Cov = bsxfun("multiply", Covarience, chi)
+    'Scale the data by the confidence interval
+    Cov = bsxfun("multiply", Covarience, chi)
 
-'Calculate our Eigenvalues
-D = Eigenvalues(Cov)
+    'Calculate our Eigenvalues
+    D = Eigenvalues(Cov)
 
-V = Eigenvectors(Cov)
+    V = Eigenvectors(Cov)
 
-'extract diagonal
-DV = ExtractDiagonal(D)
+    'extract diagonal
+    DV = ExtractDiagonal(D)
 
-'Sort eigenvalues large to small
-'If they have to be reordered, reorder eigenvectors as well
-If (DV(2) > DV(1)) Then
-  D1 = DV(1)
-  DV(1) = DV(2)
-  DV(2) = D1
-  V11 = V(1, 1)
-  V21 = V(2, 1)
-  V(1, 1) = V(1, 2)
-  V(2, 1) = V(2, 2)
-  V(1, 2) = V11
-  V(2, 2) = V21
-End If
+    'Sort eigenvalues large to small
+    'If they have to be reordered, reorder eigenvectors as well
+    If (DV(2) > DV(1)) Then
+        D1 = DV(1)
+        DV(1) = DV(2)
+        DV(2) = D1
+        V11 = V(1, 1)
+        V21 = V(2, 1)
+        V(1, 1) = V(1, 2)
+        V(2, 1) = V(2, 2)
+        V(1, 2) = V11
+        V(2, 2) = V21
+    End If
 
-'Take the square root of Eigenvalues
-DV(1) = Math.Sqr(DV(1))
-DV(2) = Math.Sqr(DV(2))
-'Convert back to a diagonal matrix
-D = Diagonal(DV)
+    'Take the square root of Eigenvalues
+    DV(1) = Math.Sqr(DV(1))
+    DV(2) = Math.Sqr(DV(2))
+    'Convert back to a diagonal matrix
+    D = Diagonal(DV)
 
-TranslationMatrix = WorksheetFunction.MMult(V, D)
+    TranslationMatrix = WorksheetFunction.MMult(V, D)
 
-Unit_Circle = WorksheetFunction.Transpose(UnitCircle(NumPoints))
-CenteredEllipse = WorksheetFunction.Transpose(WorksheetFunction.MMult(TranslationMatrix, Unit_Circle))
-Ellipse = bsxfun3("plus", CenteredEllipse, Averages)
+    Unit_Circle = WorksheetFunction.Transpose(UnitCircle(NumPoints))
+    CenteredEllipse = WorksheetFunction.Transpose(WorksheetFunction.MMult(TranslationMatrix, Unit_Circle))
+    Ellipse = bsxfun3("plus", CenteredEllipse, Averages)
 End Function
 
-'A diagonal Matrix of eigenvalues
+' Function: Eigenvalues
+' A diagonal Matrix of eigenvalues
 Function Eigenvalues(Covarience)
+    a = 1
+    b = -1 * Covarience(1, 1) - Covarience(2, 2)
+    c = -1 * Covarience(2, 1) * Covarience(1, 2) + Covarience(1, 1) * Covarience(2, 2)
 
-a = 1
-b = -1 * Covarience(1, 1) - Covarience(2, 2)
-c = -1 * Covarience(2, 1) * Covarience(1, 2) + Covarience(1, 1) * Covarience(2, 2)
+    Eigenvalue1 = (-b - Math.Sqr(b * b - 4 * a * c)) / 2 / a
+    Eigenvalue2 = (-1 * b + Math.Sqr(b * b - 4 * a * c)) / 2 / a
 
-Eigenvalue1 = (-b - Math.Sqr(b * b - 4 * a * c)) / 2 / a
-Eigenvalue2 = (-1 * b + Math.Sqr(b * b - 4 * a * c)) / 2 / a
-
-Eigen = ScalerMatrix(0, 2, 2)
-Eigen(1, 1) = Eigenvalue1
-Eigen(2, 2) = Eigenvalue2
-Eigenvalues = Eigen
+    Eigen = ScalerMatrix(0, 2, 2)
+    Eigen(1, 1) = Eigenvalue1
+    Eigen(2, 2) = Eigenvalue2
+    Eigenvalues = Eigen
 End Function
 
-'Calculate unit eigenvectors from a covarience matrix
+' Function: Eigenvectors
+' Calculate unit eigenvectors from a covarience matrix
 Function Eigenvectors(Covarience)
-Dim ReturnMatrix As Variant
-ReDim ReturnMatrix(1 To 2, 1 To 2)
+    Dim ReturnMatrix As Variant
+    ReDim ReturnMatrix(1 To 2, 1 To 2)
 
-D = Eigenvalues(Covarience)
-Lambda = bsxfun("multiply", Identity(2), D(2, 2))
-AMinusLambda = bsxfun2("minus", Covarience, bsxfun("multiply", Identity(2), D(2, 2)))
-A21 = AMinusLambda(1, 2)
-A11 = AMinusLambda(1, 1)
-ReturnMatrix(2, 1) = Math.Sqr(A21 ^ 2 / (A11 ^ 2 + A21 ^ 2))
-ReturnMatrix(1, 2) = ReturnMatrix(2, 1)
-ReturnMatrix(1, 1) = ReturnMatrix(2, 1) * A11 / A21
-ReturnMatrix(2, 2) = -1 * ReturnMatrix(1, 1)
-Eigenvectors = ReturnMatrix
+    D = Eigenvalues(Covarience)
+    Lambda = bsxfun("multiply", Identity(2), D(2, 2))
+    AMinusLambda = bsxfun2("minus", Covarience, bsxfun("multiply", Identity(2), D(2, 2)))
+    A21 = AMinusLambda(1, 2)
+    A11 = AMinusLambda(1, 1)
+    ReturnMatrix(2, 1) = Math.Sqr(A21 ^ 2 / (A11 ^ 2 + A21 ^ 2))
+    ReturnMatrix(1, 2) = ReturnMatrix(2, 1)
+    ReturnMatrix(1, 1) = ReturnMatrix(2, 1) * A11 / A21
+    ReturnMatrix(2, 2) = -1 * ReturnMatrix(1, 1)
+    Eigenvectors = ReturnMatrix
 End Function
 
-'Create an Identity Matrix of a given size
+' Function: Identity
+' Create an Identity Matrix of a given size
 Function Identity(Size_num)
-ReturnMatrix = ScalerMatrix(0, Size_num, Size_num)
-For i = 1 To Size_num
-    ReturnMatrix(i, i) = 1
-Next i
-Identity = ReturnMatrix
+    ReturnMatrix = ScalerMatrix(0, Size_num, Size_num)
+    For i = 1 To Size_num
+        ReturnMatrix(i, i) = 1
+    Next i
+    Identity = ReturnMatrix
 End Function
 
-'Sample Covarience Matrix
+' Function: CovarienceMatrix
+' Sample Covarience Matrix
 Function CovarienceMatrix(Data)
 Y = Application.Index(Data, , 2)
 Count = Application.WorksheetFunction.Count(Y)
@@ -128,7 +132,7 @@ End Function
 'apply an element-wise operation between a matrix and a scaler or two matricies
 'currently works only on matricies of width=2 and unlimited length
 Function bsxfun(operator_type, matrix_object, scaler_value)
-  Dim ReturnMatrix As Variant
+Dim ReturnMatrix As Variant
   ReDim ReturnMatrix(LBound(matrix_object, 1) To UBound(matrix_object, 1), 1 To 2)
   
   For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
@@ -146,6 +150,7 @@ Function bsxfun(operator_type, matrix_object, scaler_value)
   Next i
   bsxfun = ReturnMatrix
 End Function
+
 'apply an element-wise operation between a matrix and a scaler or two matricies
 'currently works only on matricies of width=2 and unlimited length
 'We use the bounds on matrix_2 because matrix_object is sometimes a range,
