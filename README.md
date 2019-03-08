@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Beakerboy/VBA-Projects.svg?branch=master)](https://travis-ci.org/Beakerboy/VBA-Projects)
+
 # VBA-Projects
 
 This repository contains several VBA functions:
