@@ -112,12 +112,12 @@ Public Function Loess(x As Variant, y As Variant, xnew As Variant, alpha As Vari
     Dim z() As Variant
     ReDim z(n2)
     Dim i As Integer
-    For i = 0 To n2 - 1{
+    For i = 0 To n2 - 1
         Dim deltax() As Variant
         ReDim deltax(n)
         Dim j As Integer
  
-        For j = 0 To n - 1{
+        For j = 0 To n - 1
             deltax(j) = Abs(xnew(i + 1) - x(j + 1))
         Next j
         Dim qthdeltax As Variant
@@ -126,7 +126,7 @@ Public Function Loess(x As Variant, y As Variant, xnew As Variant, alpha As Vari
   
         Dim arg() As Variant
         ReDim arg(n)
-        For j = 0 To n - 1{
+        For j = 0 To n - 1
             arg(j) = Application.WorksheetFunction.Min(deltax(j) / (qthdeltax * Application.WorksheetFunction.Max(alpha, 1)), 1)
         Next j
         Dim tricube() As Variant
