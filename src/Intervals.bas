@@ -20,7 +20,6 @@ Public Function ConfInt(x, Ys, Xs, alpha, Optional RTO = False)
     DevSq = WorksheetFunction.DevSq(Xs)
     SqDev = (x - WorksheetFunction.Average(Xs)) ^ 2
     t = WorksheetFunction.T_Inv_2T(alpha, v)
-
     If RTO Then
         Slope = WorksheetFunction.SumProduct(Xs, Ys) / SSx
         SStot = WorksheetFunction.SumSq(Ys)
