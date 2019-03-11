@@ -135,7 +135,9 @@ Public Function Loess(x As Variant, y As Variant, xnew As Variant, alpha As Vari
         count = 0
         For j = 0 To n - 1
             tricube(j) = (1 - Abs(arg(j)) ^ 3) ^ 3
-            If tricube(j) > 0 Then count = count + 1
+            If tricube(j) > 0 Then
+                count = count + 1
+            End If
         Next j
         Dim weight() As Variant
         ReDim weight(count - 1)
