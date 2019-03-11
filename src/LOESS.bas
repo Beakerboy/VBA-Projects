@@ -121,9 +121,9 @@ Public Function Loess(x As Variant, y As Variant, xnew As Variant, alpha As Vari
             deltax(j) = Abs(xnew(i + 1) - x(j + 1))
         Next j
         Dim qthdeltax As Variant
-  
+
         qthdeltax = Application.WorksheetFunction.Small(deltax, q)
-  
+
         Dim arg() As Variant
         ReDim arg(n)
         For j = 0 To n - 1
