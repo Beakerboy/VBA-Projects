@@ -194,12 +194,12 @@ End Function
 ' Function: Forcast
 ' Wrapper for the Excel Forcast function, but also accepts RTO 
 Public Function Forecast(X, Ys, Xs, Optional RTO = False)
-  If RTO Then
-    LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
-    Forecast = X * LinEst(1, 1)
-  Else
-    Forecast = WorksheetFunction.Forecast(X, Ys, Xs)
-  End If
+    If RTO Then
+        LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
+        Forecast = X * LinEst(1, 1)
+    Else
+        Forecast = WorksheetFunction.Forecast(X, Ys, Xs)
+    End If
 End Function
 
 ' Function: ConfVector
