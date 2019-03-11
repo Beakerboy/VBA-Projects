@@ -98,57 +98,57 @@ End Function
 ' Function: CovarienceMatrix
 ' Sample Covarience Matrix
 Function CovarienceMatrix(Data)
-Y = Application.Index(Data, , 2)
-Count = Application.WorksheetFunction.Count(Y)
+    Y = Application.Index(Data, , 2)
+    Count = Application.WorksheetFunction.Count(Y)
 
-OnesM = ScalerMatrix(1, Count, Count)
+    OnesM = ScalerMatrix(1, Count, Count)
 
-'Average the columns
-PartA = Application.WorksheetFunction.MMult(OnesM, Data)
-PartAScale = bsxfun("divide", PartA, Count)
+    'Average the columns
+    PartA = Application.WorksheetFunction.MMult(OnesM, Data)
+    PartAScale = bsxfun("divide", PartA, Count)
 
-'Center the data by subtracting the averages
-PartB = bsxfun2("minus", Data, PartAScale)
+    'Center the data by subtracting the averages
+    PartB = bsxfun2("minus", Data, PartAScale)
 
-PartBprime = Application.WorksheetFunction.Transpose(PartB)
+    PartBprime = Application.WorksheetFunction.Transpose(PartB)
 
-PartC = Application.WorksheetFunction.MMult(PartBprime, PartB)
-PartD = bsxfun("divide", PartC, Count - 1)
-CovarienceMatrix = PartD
+    PartC = Application.WorksheetFunction.MMult(PartBprime, PartB)
+    PartD = bsxfun("divide", PartC, Count - 1)
+    CovarienceMatrix = PartD
 End Function
 
 'Make a matrix of dimensions m x n where every element is the value 'value'
 Function ScalerMatrix(value, matrix_length, matrix_width)
-Dim matrix_object As Variant
-ReDim matrix_object(1 To matrix_length, 1 To matrix_width)
-For i = 1 To matrix_length
-  For j = 1 To matrix_width
-    matrix_object(i, j) = value
-  Next j
-Next i
-ScalerMatrix = matrix_object
+    Dim matrix_object As Variant
+    ReDim matrix_object(1 To matrix_length, 1 To matrix_width)
+    For i = 1 To matrix_length
+        For j = 1 To matrix_width
+            matrix_object(i, j) = value
+        Next j
+    Next i
+    ScalerMatrix = matrix_object
 End Function
 
 'apply an element-wise operation between a matrix and a scaler or two matricies
 'currently works only on matricies of width=2 and unlimited length
 Function bsxfun(operator_type, matrix_object, scaler_value)
-Dim ReturnMatrix As Variant
-  ReDim ReturnMatrix(LBound(matrix_object, 1) To UBound(matrix_object, 1), 1 To 2)
+    Dim ReturnMatrix As Variant
+    ReDim ReturnMatrix(LBound(matrix_object, 1) To UBound(matrix_object, 1), 1 To 2)
   
-  For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
-    For j = 1 To 2
-      If operator_type = "minus" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) - scaler_value
-      ElseIf operator_type = "plus" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) + scaler_value
-      ElseIf operator_type = "divide" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) / scaler_value
-      ElseIf operator_type = "multiply" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) * scaler_value
-      End If
-    Next j
-  Next i
-  bsxfun = ReturnMatrix
+    For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
+        For j = 1 To 2
+            If operator_type = "minus" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) - scaler_value
+            ElseIf operator_type = "plus" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) + scaler_value
+            ElseIf operator_type = "divide" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) / scaler_value
+            ElseIf operator_type = "multiply" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) * scaler_value
+            End If
+        Next j
+    Next i
+    bsxfun = ReturnMatrix
 End Function
 
 'apply an element-wise operation between a matrix and a scaler or two matricies
@@ -156,77 +156,77 @@ End Function
 'We use the bounds on matrix_2 because matrix_object is sometimes a range,
 'and lBound/UBound don't work on ranges
 Function bsxfun2(operator_type, matrix_object, matrix_2)
-  Dim ReturnMatrix As Variant
-  ReDim ReturnMatrix(LBound(matrix_2, 1) To UBound(matrix_2, 1), 1 To 2)
+    Dim ReturnMatrix As Variant
+    ReDim ReturnMatrix(LBound(matrix_2, 1) To UBound(matrix_2, 1), 1 To 2)
   
-  For i = LBound(matrix_2, 1) To UBound(matrix_2, 1)
-    For j = 1 To 2
-      'MsgBox matrix_object(i, j)
-      operator_value = matrix_2(i, j)
-      If operator_type = "minus" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) - operator_value
-      ElseIf operator_type = "plus" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) + operator_value
-      ElseIf operator_type = "divide" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) / operator_value
-      ElseIf operator_type = "multiply" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) * operator_value
-      End If
-    Next j
-  Next i
-  bsxfun2 = ReturnMatrix
+    For i = LBound(matrix_2, 1) To UBound(matrix_2, 1)
+        For j = 1 To 2
+        'MsgBox matrix_object(i, j)
+            operator_value = matrix_2(i, j)
+            If operator_type = "minus" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) - operator_value
+            ElseIf operator_type = "plus" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) + operator_value
+            ElseIf operator_type = "divide" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) / operator_value
+            ElseIf operator_type = "multiply" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) * operator_value
+            End If
+        Next j
+    Next i
+    bsxfun2 = ReturnMatrix
 End Function
 
 'apply an element-wise operation between a matrix and a vector
 'currently works only on matricies of width=2 and unlimited length
 Function bsxfun3(operator_type, matrix_object, scaler_value)
-  Dim ReturnMatrix As Variant
-  ReDim ReturnMatrix(LBound(matrix_object, 1) To UBound(matrix_object, 1), 1 To 2)
+    Dim ReturnMatrix As Variant
+    ReDim ReturnMatrix(LBound(matrix_object, 1) To UBound(matrix_object, 1), 1 To 2)
   
-  For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
-    For j = 1 To 2
-      If operator_type = "minus" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) - scaler_value(j)
-      ElseIf operator_type = "plus" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) + scaler_value(j)
-      ElseIf operator_type = "divide" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) / scaler_value(j)
-      ElseIf operator_type = "multiply" Then
-        ReturnMatrix(i, j) = matrix_object(i, j) * scaler_value(j)
-      End If
-    Next j
-  Next i
-  bsxfun3 = ReturnMatrix
+    For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
+        For j = 1 To 2
+            If operator_type = "minus" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) - scaler_value(j)
+            ElseIf operator_type = "plus" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) + scaler_value(j)
+            ElseIf operator_type = "divide" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) / scaler_value(j)
+            ElseIf operator_type = "multiply" Then
+                ReturnMatrix(i, j) = matrix_object(i, j) * scaler_value(j)
+            End If
+        Next j
+    Next i
+    bsxfun3 = ReturnMatrix
 End Function
 
 'Extract the diagonals from a matrix
 Function ExtractDiagonal(matrix_object)
-Dim ReturnVector As Variant
-ReDim ReturnVector(LBound(matrix_object, 1) To UBound(matrix_object, 1))
-For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
- ReturnVector(i) = matrix_object(i, i)
-Next i
-ExtractDiagonal = ReturnVector
+    Dim ReturnVector As Variant
+    ReDim ReturnVector(LBound(matrix_object, 1) To UBound(matrix_object, 1))
+    For i = LBound(matrix_object, 1) To UBound(matrix_object, 1)
+        ReturnVector(i) = matrix_object(i, i)
+    Next i
+    ExtractDiagonal = ReturnVector
 End Function
 
 'Create a diagonal matrix from a vector
 Function Diagonal(VectorObject)
-  ReturnMatrix = ScalerMatrix(0, UBound(VectorObject), UBound(VectorObject))
-  For i = LBound(VectorObject) To UBound(VectorObject)
-    ReturnMatrix(i, i) = VectorObject(i)
-  Next i
-  Diagonal = ReturnMatrix
+    ReturnMatrix = ScalerMatrix(0, UBound(VectorObject), UBound(VectorObject))
+    For i = LBound(VectorObject) To UBound(VectorObject)
+        ReturnMatrix(i, i) = VectorObject(i)
+    Next i
+    Diagonal = ReturnMatrix
 End Function
 
 'produce a unit circle with the number of points specified.
 'the zero point is produced twice for ease of plotting
 Function UnitCircle(NumPoints)
-Dim ReturnVector As Variant
-ReDim ReturnVector(1 To NumPoints, 1 To 2)
-Pi = WorksheetFunction.Pi
-For i = 1 To NumPoints
-  ReturnVector(i, 1) = Math.Cos(2 * Pi * i / (NumPoints - 1))
-  ReturnVector(i, 2) = Math.Sin(2 * Pi * i / (NumPoints - 1))
-Next i
-UnitCircle = ReturnVector
+    Dim ReturnVector As Variant
+    ReDim ReturnVector(1 To NumPoints, 1 To 2)
+    Pi = WorksheetFunction.Pi
+    For i = 1 To NumPoints
+        ReturnVector(i, 1) = Math.Cos(2 * Pi * i / (NumPoints - 1))
+        ReturnVector(i, 2) = Math.Sin(2 * Pi * i / (NumPoints - 1))
+    Next i
+    UnitCircle = ReturnVector
 End Function
