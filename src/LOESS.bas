@@ -116,7 +116,7 @@ Public Function Loess(x As Variant, y As Variant, xnew As Variant, alpha As Vari
         Dim deltax() As Variant
         ReDim deltax(n)
         Dim j As Integer
- 
+
         For j = 0 To n - 1
             deltax(j) = Abs(xnew(i + 1) - x(j + 1))
         Next j
