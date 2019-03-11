@@ -37,7 +37,7 @@ Timestamp: yyyy-mm-dd
 # Source Code
 # ------------------------------------------------------------------------
 
-Source Folder: ../src/Modules
+Source Folder: ../src
    Name: Modules
 
 
