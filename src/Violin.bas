@@ -153,7 +153,7 @@ End Function
 '    An array of Values.
 '
 ' ToDo: Possibly combine X and Y vectors into a 2D list. I can't see why someone would want only one.
-Public Function Violin(Data, Optional XorY = "Y", Optional Position = 1, Optional ScalingFactor = 1){{{{
+Public Function Violin(Data, Optional XorY = "Y", Optional Position = 1, Optional ScalingFactor = 1)
     mu = WorksheetFunction.Average(Data)
     sigma = WorksheetFunction.StDev(Data)
     Dim YVector As Variant
