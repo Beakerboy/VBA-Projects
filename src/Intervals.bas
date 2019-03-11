@@ -161,7 +161,7 @@ Function InversePredInt(Yo, Ys, Xs, alpha, constant, UpperLower, Optional q = 1)
     If UpperLower = 1 Then InversePredInt = Xu Else InversePredInt = Xl
 
 End Function
-                                    
+
 ' Function: HatMatrix
 Public Function HatMatrix(Xs, index1, index2)
     Xt = WorksheetFunction.Transpose(Xs)
