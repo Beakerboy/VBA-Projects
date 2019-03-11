@@ -191,7 +191,7 @@ Public Function EqualSpace(VectorObject, count)
     EqualSpace = ReturnVector
 End Function
 
-' Function: Foreast
+' Function: Forcast
 ' Wrapper for the Excel Forcast function, but also accepts RTO 
 Public Function Forecast(X, Ys, Xs, Optional RTO = False)
   If RTO Then
