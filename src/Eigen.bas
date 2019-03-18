@@ -1,6 +1,12 @@
+Private Function JKeigen(R As Range)
+    Dim Arr() As Variant ' declare an unallocated array.
+    Arr = Range(R.Address) ' Arr is now an allocated array
+    JKeigen = EIGEN_JK(Arr)
+End Function
+
 ' Function: Eigen
-' Computes the eigenvalues and eigenvectors for a real symmetric positive     
-' definite matrix using the "JK Method". 
+' Computes the eigenvalues and eigenvectors for a real symmetric positive
+' definite matrix using the "JK Method".
 '
 ' Parameters:
 '   M - The source matrix
@@ -13,7 +19,7 @@
 '   KAISER,H.F. (1972) "THE JK METHOD: A PROCEDURE FOR FINDING THE
 '   EIGENVALUES OF A REAL SYMMETRIC MATRIX", The Computer Journal, VOL.15,
 '   271-273.
-Function EIGEN_JK(ByRef M As Variant) As Variant
+Function EIGEN_JK(M) As Variant
 
     Dim A() As Variant, Ematrix() As Double
     Dim i As Long, j As Long, k As Long, iter As Long, p As Long
@@ -23,24 +29,21 @@ Function EIGEN_JK(ByRef M As Variant) As Variant
     Const eps As Double = 1E-16
     
     On Error GoTo EndProc
-    
+    Dim Orig_A() As Variant
+    Orig_A = M
     A = M
     p = UBound(A, 1)
     ReDim Ematrix(1 To p, 1 To p + 1)
     
-    For iter = 1 To 15  
+    For iter = 1 To 500
         'Orthogonalize pairs of columns in upper off diag
-        For j = 1 To p - 1
-            For k = j + 1 To p
-                
-                den = 0#
-                num = 0#
-                'Perform single plane rotation
-                For i = 1 To p
-                    num = num + 2 * A(i, j) * A(i, k)   ': numerator eq. 11
-                    den = den + (A(i, j) + A(i, k)) * _
-                        (A(i, j) - A(i, k))             ': denominator eq. 11
-                Next i
+        For i = 1 To p - 1
+            For j = i + 1 To p
+
+                x = getColumn(A, i)
+                y = getColumn(A, j)
+                num = 2 * WorksheetFunction.SumProduct(x, y)
+                den = WorksheetFunction.SumSq(x) - WorksheetFunction.SumSq(y)
                 
                 'Skip rotation if aij is zero and correct ordering
                 If Abs(num) < eps And den >= 0 Then Exit For
@@ -65,17 +68,16 @@ Function EIGEN_JK(ByRef M As Variant) As Variant
                     Sin_ = tmp
                 End If
                 
-                Sin_ = Sgn(num) * Sin_                  ': sign table 21
-                
+                Sin_ = Math.Sgn(num) * Sin_                  ': sign table 21
+               
                 'Rotate
-                For i = 1 To p
-                    tmp = A(i, j)
-                    A(i, j) = tmp * Cos_ + A(i, k) * Sin_
-                    A(i, k) = -tmp * Sin_ + A(i, k) * Cos_
-                Next i
+                For k = 1 To p
+                    A(k, i) = x(k) * Cos_ + y(k) * Sin_
+                    A(k, j) = x(k) * -1 * Sin_ + y(k) * Cos_
+                Next k
                 
-            Next k
-        Next j
+            Next j
+        Next i
         
         'Test for convergence
         Test = Application.SumSq(A)
@@ -83,32 +85,33 @@ Function EIGEN_JK(ByRef M As Variant) As Variant
         hold = Test
     Next iter
     
-    If iter = 16 Then MsgBox "JK Iteration has not converged."
-    
+    If iter = 101 Then MsgBox "JK Iteration has not converged."
+    Eval = WorksheetFunction.MMult(WorksheetFunction.MMult(WorksheetFunction.Transpose(A), Orig_A), A)
     'Compute eigenvalues/eigenvectors
-    For j = 1 To p
+    For i = 1 To p
         'Compute eigenvalues
-        For k = 1 To p
-            Ematrix(j, 1) = Ematrix(j, 1) + A(k, j) ^ 2
-        Next k
-        Ematrix(j, 1) = Sqr(Ematrix(j, 1))
+        iSign = Math.Sgn(Eval(i, i))
+        Ematrix(i, 1) = iSign * (iSign * Eval(i, i)) ^ (1 / 3)
         
         'Normalize eigenvectors
-        For i = 1 To p
-            If Ematrix(j, 1) <= 0 Then
-                Ematrix(i, j + 1) = 0
-            Else
-                Ematrix(i, j + 1) = A(i, j) / Ematrix(j, 1)
-            End If
-        Next i
-    Next j
-        
+        For j = 1 To p
+            Ematrix(j, i + 1) = A(j, i) / Abs(Ematrix(i, 1))
+        Next j
+    Next i
     EIGEN_JK = Ematrix
-    
     Exit Function
     
-    EndProc:
+EndProc:
         MsgBox prompt:="Error in function EIGEN_JK!" & vbCr & vbCr & _
             "Error: " & Err.Description & ".", Buttons:=48, _
             Title:="Run time error!"
+End Function
+
+Private Function getColumn(A, c)
+    Dim col As Variant
+    ReDim col(1 To UBound(A))
+    For i = 1 To UBound(A)
+        col(i) = A(i, c)
+    Next
+    getColumn = col
 End Function
