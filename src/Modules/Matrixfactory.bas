@@ -20,6 +20,7 @@ Public Function ZeroMatrix(M As Integer, N As Integer, Optional init = 0) As Mat
                 vA(i, j) = init
             Next j
         Next i
+    EndIf
     Dim oA As New Matrix
     oA.Mat = vA
     Set ZeroMatrix = oA
