@@ -14,16 +14,17 @@ End Function
 Public Function ZeroMatrix(M As Integer, N As Integer, Optional init = 0) As Matrix
     Dim vA() As Double
     ReDim vA(1 To M, 1 To M)
-    If init <> 1 Then
+    If init <> 0 Then
         For i = 1 To M
             For j = 1 To N
                 vA(i, j) = init
             Next j
         Next i
-    EndIf
-    Dim oA As New Matrix
+    End If
+    Dim oA As Matrix
+    Set oA = New Matrix
     oA.Mat = vA
-    Set ZeroMatrix = oA
+    Set Identity = oA
 End Function
 
 Public Function IdentityMatrixExcel(M As Integer)
