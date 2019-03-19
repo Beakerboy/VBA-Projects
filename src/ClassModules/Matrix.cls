@@ -36,7 +36,7 @@ Public Function Multiply(oInput As Matrix) As Matrix
         Set oRow = Me.GetRow(i)
         Dim j As Integer
         For j = 1 To oInput.N
-        Dim oColumn As Vector
+            Dim oColumn As Vector
             Set oColumn = oInput.GetColumn(j)
             vProduct(i, j) = oRow.DotProduct(oColumn)
         Next j
