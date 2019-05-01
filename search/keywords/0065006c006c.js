@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("ell",["Function"],[["Ellipse",,[[,,,,0,"File:Ellipse.bas:Ellipse"]]]]);

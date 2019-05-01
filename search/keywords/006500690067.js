@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("eig",["Function"],[["Eigen",,[[,,,,0,"File:Eigen.bas:Eigen"]]],["Eigenvalues",,[[,,,,0,"File:Ellipse.bas:Eigenvalues"]]],["Eigenvectors",,[[,,,,0,"File:Ellipse.bas:Eigenvectors"]]]]);

@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("lea",["Function"],[["Least2",,[[,,,,0,"File:LOESS.bas:Least2"]]]]);

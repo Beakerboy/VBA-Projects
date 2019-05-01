@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("dia",["Function"],[["Diagonal",,[[,,,,0,"File:LOESS.bas:Diagonal"]]]]);

@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("inv",["Function"],[["InverseConfInt",,[[,,,,0,"File:Intervals.bas:InverseConfInt"]]],["InversePredInt",,[[,,,,0,"File:Intervals.bas:InversePredInt"]]]]);

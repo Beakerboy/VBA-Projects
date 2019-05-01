@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("for",["Function"],[["Forcast",,[[,,,,0,"File:Intervals.bas:Forcast"]]]]);

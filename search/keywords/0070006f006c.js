@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("pol",["Function"],[["Polyval",,[[,,,,0,"File:LOESS.bas:Polyval"]]]]);

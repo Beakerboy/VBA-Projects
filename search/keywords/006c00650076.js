@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("lev",["Function"],[["Leverage",,[[,,,,0,"File:Intervals.bas:Leverage"]]]]);

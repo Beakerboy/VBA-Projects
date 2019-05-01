@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("tri",["Function"],[["TriangularKernel",,[[,,,,0,"File:Violin.bas:TriangularKernel"]]],["TricubeKernel",,[[,,,,0,"File:Violin.bas:TricubeKernel"]]]]);

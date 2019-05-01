@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("con",["Function"],[["ConfInt",,[[,,,,0,"File:Intervals.bas:ConfInt"]]],["ConfVector",,[[,,,,0,"File:Intervals.bas:ConfVector"]]]]);

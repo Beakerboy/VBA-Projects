@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("van",["Function"],[["Vander",,[[,,,,0,"File:LOESS.bas:Vander"]]]]);

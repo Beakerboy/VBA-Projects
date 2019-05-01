@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("qua",["Function"],[["QuarticKernel",,[[,,,,0,"File:Violin.bas:QuarticKernel"]]]]);

@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("pre",["Function"],[["PredInt",,[[,,,,0,"File:Intervals.bas:PredInt"]]],["PredVector",,[[,,,,0,"File:Intervals.bas:PredVector"]]]]);

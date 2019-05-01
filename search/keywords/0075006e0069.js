@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("uni",["Function"],[["uniformKernel",,[[,,,,0,"File:Violin.bas:uniformKernel"]]]]);

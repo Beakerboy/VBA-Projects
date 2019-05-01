@@ -1,0 +1,1 @@
+NDFramePage.OnPageTitleLoaded("File:ClassModules/Vector.cls","Vector.cls");NDSummary.OnSummaryLoaded("File:ClassModules/Vector.cls",[["Visual Basic","VisualBasic"]],[["Classes","Class"]],[[1,0,0,"Vector","Vector"]]);

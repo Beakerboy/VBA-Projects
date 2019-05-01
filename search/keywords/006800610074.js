@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("hat",["Function"],[["HatMatrix",,[[,,,,0,"File:Intervals.bas:HatMatrix"]]]]);

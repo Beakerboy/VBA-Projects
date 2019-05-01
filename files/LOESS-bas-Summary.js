@@ -1,0 +1,1 @@
+NDFramePage.OnPageTitleLoaded("File:LOESS.bas","LOESS.bas");NDSummary.OnSummaryLoaded("File:LOESS.bas",[["Visual Basic","VisualBasic"]],[["Functions","Function"],["Groups","Group"]],[[2,0,1,"Functions","Functions"],[3,0,0,"Diagonal","Diagonal"],[4,0,0,"Vander","Vander"],[5,0,0,"Least2","Least2"],[6,0,0,"Polyval","Polyval"],[7,0,0,"Loess","Loess"]]);

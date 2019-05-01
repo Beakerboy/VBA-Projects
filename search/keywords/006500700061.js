@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("epa",["Function"],[["EpanechnikovKernel",,[[,,,,0,"File:Violin.bas:EpanechnikovKernel"]]]]);

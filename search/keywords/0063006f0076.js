@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("cov",["Function"],[["CovarienceMatrix",,[[,,,,0,"File:Ellipse.bas:CovarienceMatrix"]]]]);

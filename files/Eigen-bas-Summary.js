@@ -1,0 +1,1 @@
+NDFramePage.OnPageTitleLoaded("File:Eigen.bas","Eigen.bas");NDSummary.OnSummaryLoaded("File:Eigen.bas",[["Visual Basic","VisualBasic"]],[["Functions","Function"],["Groups","Group"],["Information","Information"]],[[36,0,1,"Functions","Functions"],[37,0,0,"Eigen","Eigen"],[38,0,1,"Information","Information"],[39,0,2,"Literature Source","Literature_Source"]]);

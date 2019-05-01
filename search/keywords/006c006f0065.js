@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("loe",["Function"],[["Loess",,[[,,,,0,"File:LOESS.bas:Loess"]]]]);

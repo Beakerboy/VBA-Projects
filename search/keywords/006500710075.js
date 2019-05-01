@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("equ",["Function"],[["EqualSpace",,[[,,,,0,"File:Intervals.bas:EqualSpace"]]]]);

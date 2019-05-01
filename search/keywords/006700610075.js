@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("gau",["Function"],[["GaussianKernel",,[[,,,,0,"File:Violin.bas:GaussianKernel"]]]]);
