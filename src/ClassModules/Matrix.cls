@@ -46,6 +46,28 @@ Public Function Multiply(oInput As Matrix) As Matrix
     Set Multiply = oResult
 End Function
 
+Public Function ScalarDivide(dInput As Double) As Matrix
+    Dim i As Integer
+    Dim vProduct() As Variant
+    
+    ReDim vProduct(1 To Me.M, 1 To Me.N)
+    For i = 1 To Me.M
+        Dim j As Integer
+        For j = 1 To Me.N
+            vProduct(i, j) = dA(i, j) / dInput
+        Next j
+    Next i
+    Dim oResult As New Matrix
+    oResult.Mat = vProduct
+    Set ScalarDivide = oResult
+End Function
+
+Public Function Transpose() As Matrix
+    Dim oResult As New Matrix
+    oResult.Mat = WorksheetFunction.Transpose(dA)
+    Set Transpose = oResult
+End Function
+
 Public Function GetRow(M As Integer) As Vector
     Dim vResult() As Variant
     ReDim vResult(1 To intN, 1 To 1)
@@ -66,4 +88,8 @@ Public Function GetColumn(N As Integer) As Vector
     Dim oResult As New Vector
     oResult.Vec = vResult
     Set GetColumn = oResult
+End Function
+
+Public Function getValue(i, j)
+    getValue = dA(i, j)
 End Function
