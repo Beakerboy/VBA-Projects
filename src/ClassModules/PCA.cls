@@ -49,11 +49,8 @@ Property Get TransformedData()
 End Property
 
 ' Function: Normalize
-' Normalise the dataset
-'
-' Parameters:
-'  Cov - If true, do not divide each column by its standard deviation
-'
+' Normalise the dataset in the ways sepcified in the object
+' The NewData parameter chooses which dataset to normalize.
 Public Sub Normalize(Optional NewData = False)
     Dim NewDataSet As Dataset
     If NewData Then Set NewDataSet = oNewDataset Else Set NewDataSet = oDataset
