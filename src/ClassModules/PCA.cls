@@ -1,3 +1,8 @@
+' Class: PCA
+' Perform Primary Component Analysis on a set of data
+'
+' Version: 19091301
+
 Dim oDataset As Dataset
 Dim oNewDataset As Dataset
 Dim oNormalData As Matrix
@@ -7,6 +12,8 @@ Dim oEigen As Eigen
 Dim oScores As Matrix
 Dim bScale As Boolean
 Dim bCenter As Boolean
+Dim bCV As Boolean
+Dim dInertia As Double
 
 Property Set Data(inData As Dataset)
     Set oDataset = inData
@@ -33,6 +40,12 @@ End Property
 
 Property Get Correlation()
     Correlation = oCorrelation.Mat
+End Property
+
+' Property: CrossValidate
+' If set to true, calculate crossvalidated T², Q-residuals, and PRESS
+Property Let CrossValidate(bSet As Boolean)
+    bCV = bSet
 End Property
 
 Property Get EigenVec()
@@ -83,48 +96,71 @@ End Sub
 Public Sub CorrelationMatrix()
     iSamples = oDataset.NumberOfSamples
     Dim oCorrelationt As Matrix
+    Dim Divisor As Double
     Set oCorrelationt = oNormalData.Transpose()
-    Set oCorrelation = oCorrelationt.Multiply(oNormalData).ScalarDivide(iSamples - 1)
+    Divisor = iSamples - 1
+    Set oCorrelation = oCorrelationt.Multiply(oNormalData).ScalarDivide(Divisor)
 End Sub
 
 Public Sub Run()
-    If bCenter Or bScale Then Normalize
+    Normalize
+    dInertia = oNormalData.frobeniousNorm()
     CorrelationMatrix
     Set oEigen = New Eigen
     Set oEigen.Matrix = oCorrelation
     oEigen.JK
     Transform
+    If bCV Then RunCV
+End Sub
+
+
+Public Sub RunCV()
+
 End Sub
 
 Public Sub Transform(Optional iNum As Integer)
     Set oScores = oNormalData.Multiply(oEigen.EigenVec)
 End Sub
 
-Public Sub PRESS()
-    Dim i As Integer
-    Dim iSample As Integer
-    iSample = vData.M
-    Dim oRow As Matrix
-    Dim oErrorMatrix As Matrix
-    For i = 1 To iVariables
-        For j = 1 To iSample
-            Dim InnerPCA As New PCA
-            InnerPCA.Data = vData.ExcludeRow(j)
-            InnerPCA.Run
-            Set oRow = InnerPCA.TransformNewData(vData.GetRow(j).Vec, i)
-            Set oPress = oPress.AugmentBelow(oRow)
-        Next j
-        Set oErrorMatrix = oNormalData.Subtract(oPress)
-        vPress(i) = Math.sqr(WorksheetFunction.SumSq(oErrorMatrix.Mat))
+Public Function getPRESS() As Vector
+    nSamp = oDataset.NumberOfSamples
+    nvar = oDataset.NumberOfVariables
+    Dim oResults As Matrix
+    
+    Set oResults = ScalarMatrix(0, nSamp, nvar)
+    Dim pressPCA As New PCA
+    Dim oTrainingDataset As New Dataset
+    Dim oTestingDataset As New Dataset
+    With pressPCA
+        .PCACenter = True
+        .PCAScale = True
+    End With
+    For i = 1 To nSamp - 1
+        oTrainingDataset.Data = oDataset.Data.ExcludeRow(i).Mat
+        Set pressPCA.Data = oTrainingDataset
+        pressPCA.Run
+        oTestingDataset.Data = oDataset.Data.GetRow(i).toRowMatrix().Mat
+        Set pressPCA.NewData = oTestingDataset
+        Set oResults = oResults.ReplaceRow(i, pressPCA.getQ(True).GetRow(1))
     Next i
-End Sub
+    
+    Dim vResultsVector As Variant
+    ReDim vResultsVector(1 To nvar, 1 To 1)
+    For i = 1 To nvar
+        vResultsVector(i, 1) = oResults.GetColumn(i).Sum()
+    Next i
+    
+    Dim oResultsVector As New Vector
+    oResultsVector.Vec = vResultsVector
+    Set getPRESS = oResultsVector
+End Function
 
 Public Function getRESS() As Vector
     Dim vRsq As Variant
     vRsq = getCumRsq().Vec
     Inertia = oEigen.EigenVal.Sum * (oDataset.NumberOfSamples - 1)
     For i = 1 To oDataset.NumberOfVariables
-        vRsq(i, 1) = (1 - vRsq(i, 1)) * Inertia
+        vRsq(i, 1) = (1 - vRsq(i, 1)) * dInertia
     Next i
     Dim oResult As New Vector
     oResult.Vec = vRsq
@@ -132,7 +168,7 @@ Public Function getRESS() As Vector
 End Function
 
 Public Function getRsq() As Vector
-    Set getRsq = oEigen.EigenVal.ScalarDivide(oEigen.EigenVal.Sum)
+    Set getRsq = oEigen.EigenVal.ScalarDivide(oCorrelation.Trace())
 End Function
 
 Public Function getCumRsq() As Vector
@@ -174,6 +210,10 @@ Public Function getDmodX()
     Set getDmodX = oDmodX
 End Function
 
+' Function: getQ
+' Calculate the Q residuals for each sample, for all model complexities
+' For each sample (i), the Q residual is
+' Qi = ei' * ei = xi' (I - PP')xi
 Public Function getQ(Optional bUseNewdata = False) As Matrix
     Dim oIdentity, oLoadings, oStdevs As Matrix
     Dim oScaledX As New Matrix
@@ -182,11 +222,14 @@ Public Function getQ(Optional bUseNewdata = False) As Matrix
 
     Dim vResult As Variant
     Dim oResult As Matrix
+    
+    ' Initialize oResult to be a matrix with the same shape as oSacledX
     Set oResult = oScaledX.ScalarMultiply(0)
-    ReDim vResult(1 To 1, 1 To oDataset.NumberOfVariables)
-    Set oIdentity = Identity(oDataset.NumberOfVariables)
+    nvar = oDataset.NumberOfVariables
+    ReDim vResult(1 To 1, 1 To nvar)
+    Set oIdentity = Identity(nvar)
     For i = 1 To oDataset.NumberOfVariables
-        Set oLoadings = oEigen.EigenVec.Submatrix(1, oDataset.NumberOfVariables, 1, i)
+        Set oLoadings = oEigen.EigenVec.Submatrix(1, nvar, 1, i)
         Set oResult = oResult.ReplaceColumn(i, oScaledX.Multiply(oIdentity.Subtract(oLoadings.Multiply(oLoadings.Transpose()))).Multiply(oScaledX.Transpose()).GetDiagonalElements())
     Next i
     Set getQ = oResult
@@ -194,19 +237,20 @@ End Function
 
 ' Function: getT2
 ' Get the T2 distances of the model or new data
+' T²i = sum,j=1 to r(ti,j / Eval,j) = ti * diag(eval)^-1 * ti'
 '
 ' Parameters:
 '   bUseNewData - True if the new data dataset object is to be used
 Public Function getT2(Optional bUseNewdata = False) As Matrix
     nSamp = oDataset.NumberOfSamples
-    nVar = oDataset.NumberOfVariables
+    nvar = oDataset.NumberOfVariables
     Dim oResult, oInverseEvals As Matrix
     Dim oReducedInverseEvals As Matrix
     Dim oReducedScores As Matrix
     Dim ithT2 As Vector
-    Set oResult = ScalarMatrix(0, nSamp, nVar)
+    Set oResult = ScalarMatrix(0, nSamp, nvar)
     Set oInverseEvals = DiagonalMatrix(oEigen.EigenVal).Inverse()
-    For i = 1 To nVar
+    For i = 1 To nvar
         Set oReducedInverseEvals = oInverseEvals.Submatrix(1, i, 1, i)
         Set oReducedScores = oScores.Submatrix(1, nSamp, 1, i)
         Set ithT2 = oReducedScores.Multiply(oReducedInverseEvals).Multiply(oReducedScores.Transpose()).GetDiagonalElements()
@@ -217,10 +261,10 @@ End Function
 
 Public Function getCritT2(Optional alpha = 0.05) As Vector
     nSamp = oDataset.NumberOfSamples
-    nVar = oDataset.NumberOfVariables
+    nvar = oDataset.NumberOfVariables
     Dim vResult As Variant
-    ReDim vResult(1 To nVar, 1 To 1)
-    For i = 1 To nVar
+    ReDim vResult(1 To nvar, 1 To 1)
+    For i = 1 To nvar
         vResult(i, 1) = i * (nSamp - 1) * WorksheetFunction.F_Inv(1 - alpha, i, nSamp - i) / (nSamp - i)
     Next i
     Dim oResult As New Vector
@@ -228,19 +272,50 @@ Public Function getCritT2(Optional alpha = 0.05) As Vector
     Set getCritT2 = oResult
 End Function
 
+Public Function getCritQ(Optional alpha = 0.05) As Vector
+    nSamp = oDataset.NumberOfSamples
+    nvar = oDataset.NumberOfVariables
+    Dim vResult As Variant
+    ReDim vResult(1 To nvar, 1 To 1)
+    Dim eval_subset As Vector
+    Dim eval_subset2 As Vector
+    Dim eval_subset3 As Vector
+    For i = 1 To nvar - 1
+        
+        Set eval_subset = oEigen.EigenVal.subVector(i + 1)
+        Set eval_subset2 = eval_subset.pow(2)
+        Set eval_subset3 = eval_subset.pow(3)
+        t1 = eval_subset.Sum()
+        t2 = eval_subset2.Sum()
+        t3 = eval_subset3.Sum()
+        h0 = 1 - 2 * t1 * t3 / 3 / t2 / t2
+        If h0 < 0.001 Then
+            h0 = 0.001
+        End If
+        ca = WorksheetFunction.Norm_S_Inv(1 - alpha)
+        h1 = ca * Math.sqr(2 * t2 * h0 * h0) / t1
+        h2 = t2 * h0 * (h0 - 1) / t1 / t1
+        vResult(i, 1) = t1 * (1 + h1 + h2) ^ (1 / h0)
+    Next i
+    vResult(nvar, 1) = 0
+    Dim oResult As New Vector
+    oResult.Vec = vResult
+    Set getCritQ = oResult
+End Function
+
 Public Function getResiduals(nPcs) As Matrix
     'Given a number of primary components
-    nVar = oDataset.NumberOfVariables
+    nvar = oDataset.NumberOfVariables
     Dim oSelectedloadings As Matrix
-    Set oSelectedloadings = Loadings.Submatrix(1, nVar, 1, nPcs)
-    Set getResiduals = oDataset.Data.Multiply(Identity(nVar).Subtract(oSelectedloadings.Multiply(oSelectedloadings.Transpose())))
+    Set oSelectedloadings = Loadings.Submatrix(1, nvar, 1, nPcs)
+    Set getResiduals = oDataset.Data.Multiply(Identity(nvar).Subtract(oSelectedloadings.Multiply(oSelectedloadings.Transpose())))
 End Function
 
 Public Function OutputModelData()
-    nVar = oDataset.NumberOfVariables
+    nvar = oDataset.NumberOfVariables
     nSamp = oDataset.NumberOfSamples
     Dim oOutput As Matrix
-    Set oOutput = ScalarMatrix("", nVar + nSamp + 14, nVar * 4 + 7)
+    Set oOutput = ScalarMatrix("", nvar + nSamp + 17, nvar * 4 + 7)
     Dim oSampleNames As New Matrix
     oSampleNames.Mat = oDataset.SampleNames
     
@@ -258,53 +333,67 @@ Public Function OutputModelData()
 
     ' Position Elements
     ' Top Row
-    Set oOutput = oOutput.Embed(1, 1, ScalarMatrix("Data", 1, 1))
-    Set oOutput = oOutput.Embed(1, 2, oVariableNames.Transpose())
-    Set oOutput = oOutput.Embed(1, nVar + 3, ScalarMatrix("Component Score", 1, 1))
-    Set oOutput = oOutput.Embed(1, nVar + 4, oPC.Transpose())
-    Set oOutput = oOutput.Embed(1, nVar * 2 + 5, ScalarMatrix("Q Residuals", 1, 1))
-    Set oOutput = oOutput.Embed(1, nVar * 2 + 6, oPC.Transpose())
-    Set oOutput = oOutput.Embed(1, nVar * 3 + 7, ScalarMatrix("T² Distance", 1, 1))
-    Set oOutput = oOutput.Embed(1, nVar * 3 + 8, oPC.Transpose())
+    Set oOutput = oOutput.Embed(1, 1, ScalarMatrix("Variables", 1, 1))
+    Set oOutput = oOutput.Embed(1, 2, ScalarMatrix("Samples", 1, 1))
+    Set oOutput = oOutput.Embed(1, 3, ScalarMatrix("Inertia", 1, 1))
+    
+    'Summary Data
+    Set oOutput = oOutput.Embed(2, 1, ScalarMatrix(oDataset.NumberOfVariables, 1, 1))
+    Set oOutput = oOutput.Embed(2, 2, ScalarMatrix(oDataset.NumberOfSamples, 1, 1))
+    Set oOutput = oOutput.Embed(2, 3, ScalarMatrix(dInertia, 1, 1))
+    
+    'Top Data
+    Set oOutput = oOutput.Embed(4, 1, ScalarMatrix("Data", 1, 1))
+    Set oOutput = oOutput.Embed(4, 2, oVariableNames.Transpose())
+    Set oOutput = oOutput.Embed(4, nvar + 3, ScalarMatrix("Component Score", 1, 1))
+    Set oOutput = oOutput.Embed(4, nvar + 4, oPC.Transpose())
+    Set oOutput = oOutput.Embed(4, nvar * 2 + 5, ScalarMatrix("Q Residuals", 1, 1))
+    Set oOutput = oOutput.Embed(4, nvar * 2 + 6, oPC.Transpose())
+    Set oOutput = oOutput.Embed(4, nvar * 3 + 7, ScalarMatrix("T² Distance", 1, 1))
+    Set oOutput = oOutput.Embed(4, nvar * 3 + 8, oPC.Transpose())
     
     ' Top block of data
-    Set oOutput = oOutput.Embed(2, 2, oNormalData)
-    Set oOutput = oOutput.Embed(2, nVar + 3, oSampleNames)
-    Set oOutput = oOutput.Embed(2, nVar + 4, oScores)
-    Set oOutput = oOutput.Embed(2, nVar * 2 + 5, oSampleNames)
-    Set oOutput = oOutput.Embed(2, nVar * 2 + 6, getQ())
-    Set oOutput = oOutput.Embed(2, nVar * 3 + 7, oSampleNames)
-    Set oOutput = oOutput.Embed(2, nVar * 3 + 8, getT2())
+    Set oOutput = oOutput.Embed(5, 2, oNormalData)
+    Set oOutput = oOutput.Embed(5, nvar + 3, oSampleNames)
+    Set oOutput = oOutput.Embed(5, nvar + 4, oScores)
+    Set oOutput = oOutput.Embed(5, nvar * 2 + 5, oSampleNames)
+    Set oOutput = oOutput.Embed(5, nvar * 2 + 6, getQ())
+    Set oOutput = oOutput.Embed(5, nvar * 3 + 7, oSampleNames)
+    Set oOutput = oOutput.Embed(5, nvar * 3 + 8, getT2())
     
     ' Second data block
-    Set oOutput = oOutput.Embed(nSamp + 3, 2, oPC.Transpose())
-    Set oOutput = oOutput.Embed(nSamp + 3, nVar + 3, ScalarMatrix("Var/Covar", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + 3, nVar + 4, oVariableNames.Transpose())
-    Set oOutput = oOutput.Embed(nSamp + 4, 2, oEigen.EigenVec)
-    Set oOutput = oOutput.Embed(nSamp + 4, nVar + 3, oVariableNames)
-    Set oOutput = oOutput.Embed(nSamp + 4, nVar + 4, oCorrelation)
+    Set oOutput = oOutput.Embed(nSamp + 6, 2, oPC.Transpose())
+    Set oOutput = oOutput.Embed(nSamp + 6, nvar + 3, ScalarMatrix("Var/Covar", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + 6, nvar + 4, oVariableNames.Transpose())
+    Set oOutput = oOutput.Embed(nSamp + 7, 2, oEigen.EigenVec)
+    Set oOutput = oOutput.Embed(nSamp + 7, nvar + 3, oVariableNames)
+    Set oOutput = oOutput.Embed(nSamp + 7, nvar + 4, oCorrelation)
+    'If bCV Then Set oOutput = oOutput.Embed(nSamp + 7, 2 * nVar + 5, getQCV())
+    'If bCV Then Set oOutput = oOutput.Embed(nSamp + 7, 3 * nVar + 8, getT2CV())
     
     'Third Data Block
-    Set oOutput = oOutput.Embed(nSamp + nVar + 5, 2, oPC.Transpose())
-    Set oOutput = oOutput.Embed(nSamp + nVar + 6, 2, RowMatrix(oEigen.EigenVal))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 7, 2, RowMatrix(getRsq()))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 8, 2, RowMatrix(getCumRsq()))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 9, 2, RowMatrix(getRESS()))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 13, 2, RowMatrix(getCritT2()))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 8, 2, oPC.Transpose())
+    Set oOutput = oOutput.Embed(nSamp + nvar + 9, 2, RowMatrix(oEigen.EigenVal))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 10, 2, RowMatrix(getRsq()))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 11, 2, RowMatrix(getCumRsq()))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 12, 2, RowMatrix(getRESS()))
+    If bCV Then Set oOutput = oOutput.Embed(nSamp + nvar + 13, 2, RowMatrix(getPRESS()))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 16, 2, RowMatrix(getCritT2()))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 17, 2, RowMatrix(getCritQ()))
     
     ' Left Column
-    Set oOutput = oOutput.Embed(2, 1, oSampleNames)
-    Set oOutput = oOutput.Embed(nSamp + 3, 1, ScalarMatrix("Loading", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + 4, 1, oVariableNames)
-    Set oOutput = oOutput.Embed(nSamp + nVar + 6, 1, ScalarMatrix("Eval", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 7, 1, ScalarMatrix("R²", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 8, 1, ScalarMatrix("CumR²", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 9, 1, ScalarMatrix("RESS", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 10, 1, ScalarMatrix("PRESS", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 11, 1, ScalarMatrix("Q²", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 12, 1, ScalarMatrix("CumQ²", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 13, 1, ScalarMatrix("critT²", 1, 1))
-    Set oOutput = oOutput.Embed(nSamp + nVar + 14, 1, ScalarMatrix("critQ", 1, 1))
+    Set oOutput = oOutput.Embed(5, 1, oSampleNames)
+    Set oOutput = oOutput.Embed(nSamp + 6, 1, ScalarMatrix("Loading", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + 7, 1, oVariableNames)
+    Set oOutput = oOutput.Embed(nSamp + nvar + 9, 1, ScalarMatrix("Eval", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 10, 1, ScalarMatrix("R²", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 11, 1, ScalarMatrix("CumR²", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 12, 1, ScalarMatrix("RESS", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 13, 1, ScalarMatrix("PRESS", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 14, 1, ScalarMatrix("Q²", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 15, 1, ScalarMatrix("CumQ²", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 16, 1, ScalarMatrix("critT²", 1, 1))
+    Set oOutput = oOutput.Embed(nSamp + nvar + 17, 1, ScalarMatrix("critQ", 1, 1))
     
     OutputModelData = oOutput.Mat
 End Function
