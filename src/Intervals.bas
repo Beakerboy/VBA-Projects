@@ -173,11 +173,11 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     v = n - 2
     If SLR = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
-    LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, False)
+	LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
     b1 = WorksheetFunction.Index(LinEst, 1,1)
-    Sum = WorksheetFunction.Index(LinEst, 3, 2) ^ 2 / WorksheetFunction.Index(LinEst, 2, 1) ^ 2
-
-    S = WorksheetFunction.Index(LinEst, 3, 2)
+	beta = WorksheetFunction.Index(LinEst, 2, 1)
+	S = WorksheetFunction.Index(LinEst, 3, 2)
+	Sum = (S / beta)^ 2
 
     Xbar = WorksheetFunction.Average(Xs)
     Ybar = WorksheetFunction.Average(Ys)
