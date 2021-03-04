@@ -55,7 +55,7 @@ End Function
 '   Ys    - array of y values
 '   Xs    - array of x values
 '   alpha - interval size, for 95% confidence, alpha=.05
-'   SLR   - if true, use regression through origin
+'   SLR   - if true, use simple linear regression
 '         - if false use regression through the origin
 '   q     - number of replicates
 '
@@ -161,12 +161,13 @@ End Function
 '   Ys         - 
 '   Xs         - 
 '   alpha      - 
-'   constant   - true=calc normally; false=force to zero
+'   SLR   - if true, use simple linear regression
+'         - if false use regression through the origin
 '   UpperLower - 1 = upper interval, -1 = lower interval
 '
 ' Returns:
 '   The interval in the x direction above or below the SLR line of best fit
-Function FiducialInt(Yo, Ys, Xs, alpha, constant, UpperLower)
+Function FiducialInt(Yo, Ys, Xs, alpha, SLR, UpperLower)
     n = WorksheetFunction.Count(Xs)
     v = n - 2
     If constant = False Then v = v + 1
@@ -200,7 +201,7 @@ End Function
 '
 ' Returns
 ' The value on either the upper or lower confidence band there y crosses the band
-Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, UpperLower)
+Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     n = WorksheetFunction.Count(Xs)
     v = n - 2
     If SLR = False Then v = v + 1
@@ -221,11 +222,11 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, UpperLower)
     Part4 = t * S / Sum ^ 0.5
     If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = Yo / (b + Part4)
     If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = Yo / (b - Part4)
-	If UpperLower Then InverseConfInt = Xu Else InverseConfInt = Xl
+	If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
 End Function
 
 ' Function: InversePredInt
-Function InversePredInt(Yo, Ys, Xs, alpha, constant, UpperLower, Optional q = 1)
+Function InversePredInt(Yo, Ys, Xs, alpha, constant, Upper, Optional q = 1)
     'constant:true=calc normally; false=force to zero
     'This is the inverse of the prediction interval. Given a Y value, what is the range on the x.
     n = WorksheetFunction.Count(Xs)
@@ -247,21 +248,21 @@ Function InversePredInt(Yo, Ys, Xs, alpha, constant, UpperLower, Optional q = 1)
 
     If constant Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = (Yo * b1 - Part4) / Part3
     If constant Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = (Yo * b1 + Part4) / Part3
-    If UpperLower = 1 Then InversePredInt = Xu Else InversePredInt = Xl
+    If Upper Then InversePredInt = Xu Else InversePredInt = Xl
 
 End Function
                                 
 ' Function: ConfVector
 ' Return an array of confidence Intervals
-Public Function ConfVector(Ys, Xs, alpha, count, plusorminus, Optional RTO = False)
+Public Function ConfVector(Ys, Xs, alpha, count, plusorminus, Optional SLR = False)
     Xinput = EqualSpace(Xs, count)
     Dim ReturnVector As Variant
     ReDim ReturnVector(1 To count, 1 To 1)
     For i = 1 To count
         If plusorminus = "plus" Then
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) + ConfInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
+            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) + ConfInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         Else
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) - ConfInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
+            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) - ConfInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         End If
     Next i
     ConfVector = ReturnVector
@@ -269,52 +270,52 @@ End Function
 
 ' Function: PredVector
 ' Return an array of prediction Intervals
-Public Function PredVector(Ys, Xs, alpha, count, plusorminus, Optional RTO = False)
+Public Function PredVector(Ys, Xs, alpha, count, plusorminus, Optional SLR = True)
     Xinput = EqualSpace(Xs, count)
     Dim ReturnVector As Variant
     ReDim ReturnVector(1 To count, 1 To 1)
     For i = 1 To count
         If plusorminus = "plus" Then
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) + PredInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
+			ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) + PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         Else
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, RTO) - PredInt(Xinput(i, 1), Ys, Xs, alpha, RTO)
+            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) - PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         End If
     Next i
     PredVector = ReturnVector
 End Function
 
 'Return an array of confidence Intervals
-Public Function QuadConfVector(Ys, Xs As Range, alpha, count, plusorminus)
+							Public Function QuadConfVector(Ys, Xs As Range, alpha, count, Upper)
 Xinput = EqualSpace(Xs, count)
 Dim ReturnVector As Variant
 ReDim ReturnVector(1 To count, 1 To 1)
 For i = 1 To count
     Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
     Conf = QuadConfInt(Xinput(i, 1), Ys, Xs, alpha)
-  If plusorminus = "plus" Then
-    ReturnVector(i, 1) = Forecast + Conf
-  Else
-    ReturnVector(i, 1) = Forecast - Conf
-  End If
+	If Upper Then
+		ReturnVector(i, 1) = Forecast + Conf
+	Else
+		ReturnVector(i, 1) = Forecast - Conf
+	End If
 Next i
 QuadConfVector = ReturnVector
 End Function
 
 'Return an array of prediction Intervals
-Public Function QuadPredVector(Ys, Xs As Range, alpha, count, plusorminus)
-Xinput = EqualSpace(Xs, count)
-Dim ReturnVector As Variant
-ReDim ReturnVector(1 To count, 1 To 1)
-For i = 1 To count
-    Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
-    Conf = QuadPredInt(Xinput(i, 1), Ys, Xs, alpha)
-  If plusorminus = "plus" Then
-    ReturnVector(i, 1) = Forecast + Conf
-  Else
-    ReturnVector(i, 1) = Forecast - Conf
-  End If
-Next i
-QuadPredVector = ReturnVector
+						Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
+	Xinput = EqualSpace(Xs, count)
+	Dim ReturnVector As Variant
+	ReDim ReturnVector(1 To count, 1 To 1)
+	For i = 1 To count
+    	Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
+    	Conf = QuadPredInt(Xinput(i, 1), Ys, Xs, alpha)
+		If Upper Then
+			ReturnVector(i, 1) = Forecast + Conf
+		Else
+			ReturnVector(i, 1) = Forecast - Conf
+		End If
+	Next i
+	QuadPredVector = ReturnVector
 End Function
 
 ' Function: HatMatrix
