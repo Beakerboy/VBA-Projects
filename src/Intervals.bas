@@ -153,39 +153,6 @@ Function QuadPredInt(X, Ys, Xs, alpha)
     QuadPredInt = T * StEyx * (X ^ 2 * se + 1) ^ 0.5
 End Function
 
-' Function: FiducialInt
-' This is the inverse of the confidence interval. Given a Y value, what is the range on the x.
-'
-' Parameters:
-'   Yo         - 
-'   Ys         - 
-'   Xs         - 
-'   alpha      - 
-'   SLR   - if true, use simple linear regression
-'         - if false use regression through the origin
-'   UpperLower - 1 = upper interval, -1 = lower interval
-'
-' Returns:
-'   The interval in the x direction above or below the SLR line of best fit
-Function FiducialInt(Yo, Ys, Xs, alpha, SLR, UpperLower)
-    n = WorksheetFunction.Count(Xs)
-    v = n - 2
-    If constant = False Then v = v + 1
-    t = WorksheetFunction.T_Inv_2T(alpha, v)
-    LinEst = WorksheetFunction.LinEst(Ys, Xs, constant, False)
-    b1 = WorksheetFunction.Index(LinEst, 1)
-
-    StEyx = WorksheetFunction.StEyx(Ys, Xs)
-    DevSq = WorksheetFunction.DevSq(Xs)
-
-    Xbar = WorksheetFunction.Average(Xs)
-    Ybar = WorksheetFunction.Average(Ys)
-	Xo = (Yo - b0) / b1
-    
-	DeltaX = Xbar + (b1 * (Yo - Ybar) + UpperLower * t * StEyx * ((Yo - Ybar) ^ 2 / DevSq + b1 ^ 2 / n - t ^ 2 * StEyx ^ 2 / n / DevSq) ^ 0.5) / (b1 ^ 2 - t ^ 2 * StEyx ^ 2 / DevSq)
-	FiducialInt = DeltaX
-End Function
-
 ' Function: InverseConfInt
 ' Given data and a confidence level, find the x value along either the upper or lower confidence band at a given y value
 '
@@ -220,8 +187,8 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     Part3 = b1 ^ 2 - t ^ 2 * S ^ 2 / Sum
 
     Part4 = t * S / Sum ^ 0.5
-    If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = Yo / (b + Part4)
-    If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = Yo / (b - Part4)
+    If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = Yo / (b - Part4)
+    If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = Yo / (b + Part4)
 	If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
 End Function
 
@@ -246,8 +213,8 @@ Function InversePredInt(Yo, Ys, Xs, alpha, constant, Upper, Optional q = 1)
 
     Part4 = t * S * (Yo ^ 2 * beta ^ 2 / S ^ 2 + Part3 / q) ^ 0.5
 
-    If constant Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = (Yo * b1 - Part4) / Part3
-    If constant Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = (Yo * b1 + Part4) / Part3
+    If constant Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = (Yo * b1 + Part4) / Part3
+    If constant Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = (Yo * b1 - Part4) / Part3
     If Upper Then InversePredInt = Xu Else InversePredInt = Xl
 
 End Function
