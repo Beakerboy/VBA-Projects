@@ -174,7 +174,7 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     If SLR = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
     LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, False)
-    b1 = WorksheetFunction.Index(LinEst, 1)
+    b1 = WorksheetFunction.Index(LinEst, 1,1)
     Sum = WorksheetFunction.Index(LinEst, 3, 2) ^ 2 / WorksheetFunction.Index(LinEst, 2, 1) ^ 2
 
     S = WorksheetFunction.Index(LinEst, 3, 2)
@@ -186,9 +186,10 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     Part2 = t * S * ((Yo - Ybar) ^ 2 / Sum + b1 ^ 2 / n - t ^ 2 * S ^ 2 / n / Sum) ^ 0.5
     Part3 = b1 ^ 2 - t ^ 2 * S ^ 2 / Sum
 
-    Part4 = t * S / Sum ^ 0.5
-    If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = Yo / (b - Part4)
-    If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = Yo / (b + Part4)
+	SumX2 = WorksheetFunction.SumSq(Xs)
+    Part4 = t * S / SumX2 ^ 0.5
+    If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = Yo / (b1 - Part4)
+    If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = Yo / (b1 + Part4)
 	If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
 End Function
 
