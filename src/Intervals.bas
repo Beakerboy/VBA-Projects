@@ -227,9 +227,9 @@ Public Function ConfVector(Ys, Xs, alpha, count, plusorminus, Optional SLR = Fal
     ReDim ReturnVector(1 To count, 1 To 1)
     For i = 1 To count
         If plusorminus = "plus" Then
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) + ConfInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
+            ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) + ConfInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         Else
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) - ConfInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
+            ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) - ConfInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         End If
     Next i
     ConfVector = ReturnVector
@@ -243,16 +243,16 @@ Public Function PredVector(Ys, Xs, alpha, count, plusorminus, Optional SLR = Tru
     ReDim ReturnVector(1 To count, 1 To 1)
     For i = 1 To count
         If plusorminus = "plus" Then
-			ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) + PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
+			ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) + PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         Else
-            ReturnVector(i, 1) = Forecast(Xinput(i, 1), Ys, Xs, SLR) - PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
+            ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) - PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         End If
     Next i
     PredVector = ReturnVector
 End Function
 
 'Return an array of confidence Intervals
-							Public Function QuadConfVector(Ys, Xs As Range, alpha, count, Upper)
+Public Function QuadConfVector(Ys, Xs As Range, alpha, count, Upper)
 Xinput = EqualSpace(Xs, count)
 Dim ReturnVector As Variant
 ReDim ReturnVector(1 To count, 1 To 1)
@@ -269,7 +269,7 @@ QuadConfVector = ReturnVector
 End Function
 
 'Return an array of prediction Intervals
-						Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
+Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
 	Xinput = EqualSpace(Xs, count)
 	Dim ReturnVector As Variant
 	ReDim ReturnVector(1 To count, 1 To 1)
@@ -314,9 +314,9 @@ Public Function EqualSpace(VectorObject, count)
     EqualSpace = ReturnVector
 End Function
 
-' Function: Forcast
-' Wrapper for the Excel Forcast function, but also accepts RTO 
-Public Function Forecast(X, Ys, Xs, Optional RTO = False)
+' Function: ForecastVBA
+' Wrapper for the Excel Forecast function, but also accepts RTO 
+Public Function ForecastVBA(X, Ys, Xs, Optional RTO = False)
     If RTO Then
         LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
         Forecast = X * LinEst(1, 1)
@@ -325,7 +325,7 @@ Public Function Forecast(X, Ys, Xs, Optional RTO = False)
     End If
 End Function
 
-'Function: QuadForcastVBA                       
+'Function: QuadForecastVBA                       
 'Given some data in ranges of X and Y, create a least squares Y=mx²+bx model and apply it to a range of new data, 
 '
 ' Parameters:
