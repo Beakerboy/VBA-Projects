@@ -193,14 +193,14 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
 	If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
 End Function
 
-' Function: InverseConfInt
-' Given data and a confidence level, find the x value along either the upper or lower confidence band at a given y value
+' Function: InversePredInt
+' Given data and a confidence level, find the x value along either the upper or lower prediction band at a given y value
 '
 ' Prarmeters
-'   Yo    - 
-'   Ys    - 
-'   Xs    - 
-'   alpha - 
+'   Yo    -
+'   Ys    -
+'   Xs    -
+'   alpha -
 '   SLR   - if true, use regression through origin
 '         - if false use regression through the origin
 '   Upper - Return the upper band if TRUE
@@ -208,16 +208,23 @@ End Function
 '   Q     - Number of analysis repetitions
 '
 ' Returns
-' The value on either the upper or lower confidence band there y crosses the band
+' The value on either the upper or lower prediction band where y crosses the band
 Function InversePredInt(Yo, Ys, Xs, alpha, SLR, Upper, Optional q = 1)
-    n = WorksheetFunction.Count(Xs)
+    If SLR Then
+        InversePredInt = InversePredIntSLR(Yo, Ys, Xs, alpha, Upper, q)
+    Else
+        InversePredInt = InversePredIntRTO(Yo, Ys, Xs, alpha, Upper, q)
+    End If
+End Function
+                                
+Function InversePredIntSLR(Yo, Ys, Xs, alpha, Upper, Optional q = 1)
+    n = WorksheetFunction.count(Xs)
     v = n - 2
-    If SLR = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
-    LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
-    b1 = WorksheetFunction.Index(LinEst, 1, 1)
-    beta = WorksheetFunction.Index(LinEst, 2, 1)
-    S = WorksheetFunction.Index(LinEst, 3, 2)
+    LinEst = WorksheetFunction.LinEst(Ys, Xs, True, True)
+    b1 = WorksheetFunction.index(LinEst, 1, 1)
+    beta = WorksheetFunction.index(LinEst, 2, 1)
+    S = WorksheetFunction.index(LinEst, 3, 2)
 
     Xbar = WorksheetFunction.Average(Xs)
     Ybar = WorksheetFunction.Average(Ys)
@@ -225,11 +232,26 @@ Function InversePredInt(Yo, Ys, Xs, alpha, SLR, Upper, Optional q = 1)
     Part2 = t * S * ((Yo - Ybar) ^ 2 * beta ^ 2 / S ^ 2 + b1 ^ 2 * (n + q) / n / q - t ^ 2 * beta ^ 2 * (n + q) / n / q) ^ 0.5
     Part3 = b1 ^ 2 - t ^ 2 * beta ^ 2
 
+    Xu = Xbar + (Part1 + Part2) / Part3
+    Xl = Xbar + (Part1 - Part2) / Part3
+    If Upper Then InversePredIntSLR = Xu Else InversePredIntSLR = Xl
+End Function
+                                
+Function InversePredIntRTO(Yo, Ys, Xs, alpha, Upper, Optional q = 1)
+    n = WorksheetFunction.count(Xs)
+    v = n - 1
+    t = WorksheetFunction.T_Inv_2T(alpha, v)
+    LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
+    b1 = WorksheetFunction.index(LinEst, 1, 1)
+    beta = WorksheetFunction.index(LinEst, 2, 1)
+    S = WorksheetFunction.index(LinEst, 3, 2)
+
+    Part3 = b1 ^ 2 - t ^ 2 * beta ^ 2
     Part4 = t * S * (Yo ^ 2 * beta ^ 2 / S ^ 2 + Part3 / q) ^ 0.5
 
-    If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = (Yo * b1 + Part4) / Part3
-    If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = (Yo * b1 - Part4) / Part3
-    If Upper Then InversePredInt = Xu Else InversePredInt = Xl
+    Xu = (Yo * b1 + Part4) / Part3
+    Xl = (Yo * b1 - Part4) / Part3
+    If Upper Then InversePredIntRTO = Xu Else InversePredIntRTO = Xl
 End Function
                                 
 ' Function: ConfVector
