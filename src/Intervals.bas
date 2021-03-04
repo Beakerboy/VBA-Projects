@@ -298,35 +298,6 @@ Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
 	QuadPredVector = ReturnVector
 End Function
 
-' Function: HatMatrix
-Public Function HatMatrix(Xs, index1, index2)
-    Xt = WorksheetFunction.Transpose(Xs)
-    XtX = WorksheetFunction.MMult(Xt, Xs)
-
-    H = WorksheetFunction.MMult(Xs, WorksheetFunction.MMult(WorksheetFunction.MInverse(XtX), Xt))
-    HatMatrix = H(index1, index2)
-End Function
-
-' Function: Leverage
-Public Function Leverage(Xs, index)
-    Leverage = HatMatrix(Xs, index, index)
-End Function
-
-' Function: EqualSpace
-' Return an array of {count} number of points eqaly spaced along the span of VectorObject
-Public Function EqualSpace(VectorObject, count)
-    Max = WorksheetFunction.Max(VectorObject)
-    Min = WorksheetFunction.Min(VectorObject)
-
-    Delta = (Max - Min) / (count - 1)
-    Dim ReturnVector As Variant
-    ReDim ReturnVector(1 To count, 1 To 1)
-    For i = 1 To count
-        ReturnVector(i, 1) = Min + Delta * (i - 1)
-    Next i
-    EqualSpace = ReturnVector
-End Function
-
 ' Function: ForecastVBA
 ' Wrapper for the Excel Forecast function, but also accepts RTO 
 Public Function ForecastVBA(X, Ys, Xs, Optional SLR = True)
@@ -353,3 +324,50 @@ Public Function QuadForecastVBA(X, Ys, Xs As Range)
     QuadForecastVBA = X * LinEst(1, 1) + X ^ 2 * LinEst(1, 2)
 End Function                                
 
+' Function: EqualSpace
+' Return an array of {count} number of points eqaly spaced along the span of VectorObject
+Public Function EqualSpace(VectorObject, count)
+    Max = WorksheetFunction.Max(VectorObject)
+    Min = WorksheetFunction.Min(VectorObject)
+
+    Delta = (Max - Min) / (count - 1)
+    Dim ReturnVector As Variant
+    ReDim ReturnVector(1 To count, 1 To 1)
+    For i = 1 To count
+        ReturnVector(i, 1) = Min + Delta * (i - 1)
+    Next i
+    EqualSpace = ReturnVector
+End Function				
+
+' Function: HatMatrix
+Public Function HatMatrix(Xs, index1, index2)
+    Xt = WorksheetFunction.Transpose(Xs)
+    XtX = WorksheetFunction.MMult(Xt, Xs)
+
+    H = WorksheetFunction.MMult(Xs, WorksheetFunction.MMult(WorksheetFunction.MInverse(XtX), Xt))
+    HatMatrix = H(index1, index2)
+End Function
+
+' Function: Leverage
+Public Function Leverage(Xs, index)
+    Leverage = HatMatrix(Xs, index, index)
+End Function
+
+' Function: Vander
+' Create a Vandermode Matrix
+Public Function Vander(vector As Range)
+    Dim Arr As Variant
+    Dim R As Integer
+
+    R = vector.count
+    ReDim Arr(1 To R, 1 To 2)
+
+    Dim i, j As Integer
+    For i = 1 To R
+        For j = 1 To 2
+        Value = vector(i)
+            Arr(i, j) = Value ^ (3 - j)
+        Next j
+    Next i
+    Vander = Arr
+End Function
