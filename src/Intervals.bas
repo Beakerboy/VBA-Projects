@@ -173,11 +173,11 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     v = n - 2
     If SLR = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
-	LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
+    LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
     b1 = WorksheetFunction.Index(LinEst, 1,1)
-	beta = WorksheetFunction.Index(LinEst, 2, 1)
-	S = WorksheetFunction.Index(LinEst, 3, 2)
-	Sum = (S / beta)^ 2
+    beta = WorksheetFunction.Index(LinEst, 2, 1)
+    S = WorksheetFunction.Index(LinEst, 3, 2)
+    Sum = (S / beta)^ 2
 
     Xbar = WorksheetFunction.Average(Xs)
     Ybar = WorksheetFunction.Average(Ys)
@@ -186,11 +186,11 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     Part2 = t * S * ((Yo - Ybar) ^ 2 / Sum + b1 ^ 2 / n - t ^ 2 * S ^ 2 / n / Sum) ^ 0.5
     Part3 = b1 ^ 2 - t ^ 2 * S ^ 2 / Sum
 
-	SumX2 = WorksheetFunction.SumSq(Xs)
+    SumX2 = WorksheetFunction.SumSq(Xs)
     Part4 = t * S / SumX2 ^ 0.5
     If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = Yo / (b1 - Part4)
     If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = Yo / (b1 + Part4)
-	If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
+    If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
 End Function
 
 ' Function: InversePredInt
@@ -278,7 +278,7 @@ Public Function PredVector(Ys, Xs, alpha, count, plusorminus, Optional SLR = Tru
     ReDim ReturnVector(1 To count, 1 To 1)
     For i = 1 To count
         If plusorminus = "plus" Then
-			ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) + PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
+            ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) + PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         Else
             ReturnVector(i, 1) = ForecastVBA(Xinput(i, 1), Ys, Xs, SLR) - PredInt(Xinput(i, 1), Ys, Xs, alpha, SLR)
         End If
@@ -324,8 +324,8 @@ End Function
 ' Wrapper for the Excel Forecast function, but also accepts RTO 
 Public Function ForecastVBA(X, Ys, Xs, Optional SLR = True)
     If SLR Then
-		ForecastVBA = WorksheetFunction.Forecast(X, Ys, Xs)
-	Else
+	ForecastVBA = WorksheetFunction.Forecast(X, Ys, Xs)
+    Else
         LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
         ForecastVBA = X * LinEst(1, 1)
     End If
@@ -342,7 +342,7 @@ End Function
 ' Returns:
 '   An array of new Y values
 Public Function QuadForecastVBA(X, Ys, Xs As Range)
-	LinEst = WorksheetFunction.LinEst(Ys, Vander(Xs), False, True)
+    LinEst = WorksheetFunction.LinEst(Ys, Vander(Xs), False, True)
     QuadForecastVBA = X * LinEst(1, 1) + X ^ 2 * LinEst(1, 2)
 End Function                                
 
