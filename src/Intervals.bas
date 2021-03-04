@@ -192,15 +192,28 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
 	If Upper Then InverseConfInt = Xu Else InverseConfInt = Xl
 End Function
 
-' Function: InversePredInt
-Function InversePredInt(Yo, Ys, Xs, alpha, constant, Upper, Optional q = 1)
-    'constant:true=calc normally; false=force to zero
-    'This is the inverse of the prediction interval. Given a Y value, what is the range on the x.
+' Function: InverseConfInt
+' Given data and a confidence level, find the x value along either the upper or lower confidence band at a given y value
+'
+' Prarmeters
+'   Yo    - 
+'   Ys    - 
+'   Xs    - 
+'   alpha - 
+'   SLR   - if true, use regression through origin
+'         - if false use regression through the origin
+'   Upper - Return the upper band if TRUE
+'         - Return the lower band if FALSE
+'   Q     - Number of analysis repetitions
+'
+' Returns
+' The value on either the upper or lower confidence band there y crosses the band
+Function InversePredInt(Yo, Ys, Xs, alpha, SLR, Upper, Optional q = 1)
     n = WorksheetFunction.Count(Xs)
     v = n - 2
     If constant = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
-    LinEst = WorksheetFunction.LinEst(Ys, Xs, constant, True)
+    LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
     b1 = WorksheetFunction.Index(LinEst, 1, 1)
     beta = WorksheetFunction.Index(LinEst, 2, 1)
     S = WorksheetFunction.Index(LinEst, 3, 2)
@@ -213,10 +226,9 @@ Function InversePredInt(Yo, Ys, Xs, alpha, constant, Upper, Optional q = 1)
 
     Part4 = t * S * (Yo ^ 2 * beta ^ 2 / S ^ 2 + Part3 / q) ^ 0.5
 
-    If constant Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = (Yo * b1 + Part4) / Part3
-    If constant Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = (Yo * b1 - Part4) / Part3
+    If SLR Then Xu = Xbar + (Part1 + Part2) / Part3 Else Xu = (Yo * b1 + Part4) / Part3
+    If SLR Then Xl = Xbar + (Part1 - Part2) / Part3 Else Xl = (Yo * b1 - Part4) / Part3
     If Upper Then InversePredInt = Xu Else InversePredInt = Xl
-
 End Function
                                 
 ' Function: ConfVector
@@ -336,7 +348,7 @@ End Function
 ' Returns:
 '   An array of new Y values
 Public Function QuadForecastVBA(X, Ys, Xs As Range)
-     LinEst = WorksheetFunction.LinEst(Ys, Vander(Xs), False, True)
+	LinEst = WorksheetFunction.LinEst(Ys, Vander(Xs), False, True)
     QuadForecastVBA = X * LinEst(1, 1) + X ^ 2 * LinEst(1, 2)
 End Function                                
 
