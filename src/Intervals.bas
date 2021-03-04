@@ -212,7 +212,7 @@ End Function
 Function InversePredInt(Yo, Ys, Xs, alpha, SLR, Upper, Optional q = 1)
     n = WorksheetFunction.Count(Xs)
     v = n - 2
-    If constant = False Then v = v + 1
+    If SLR = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
     LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
     b1 = WorksheetFunction.Index(LinEst, 1, 1)
