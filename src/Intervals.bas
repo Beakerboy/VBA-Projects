@@ -329,12 +329,12 @@ End Function
 
 ' Function: ForecastVBA
 ' Wrapper for the Excel Forecast function, but also accepts RTO 
-Public Function ForecastVBA(X, Ys, Xs, Optional RTO = False)
-    If RTO Then
+Public Function ForecastVBA(X, Ys, Xs, Optional SLR = True)
+    If SLR Then
+		ForecastVBA = WorksheetFunction.Forecast(X, Ys, Xs)
+	Else
         LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
         ForecastVBA = X * LinEst(1, 1)
-    Else
-        ForecastVBA = WorksheetFunction.Forecast(X, Ys, Xs)
     End If
 End Function
 
