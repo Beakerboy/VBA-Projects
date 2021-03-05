@@ -114,3 +114,45 @@ Public Function Cubic(a, b, c, d)
     Results(3) = x3
     Cubic = Results
 End Function
+
+' Function: Quartic
+' Find the roots of a 4th order polynomial
+'
+' Parameters:
+'    a - x4 coefficient
+'    b - x³ coefficiant
+'    c - x² coefficient
+'    d - x  coefficient
+'    e - constant term
+'
+' Returns:
+' An array of complex numbers of the form (r, i)
+Public Function Quartic(a, b, c, d, e)
+    Dim Results(1 To 4) As Variant
+    Dim x1(1 To 2) As Variant
+    Dim x2(1 To 2) As Variant
+    Dim x3(1 To 2) As Variant
+    Dim x4(1 To 2) As Variant
+    If a = 0 Then
+        Cubic = Cubic(b, c, d, e)
+    Else
+        b = b / a
+        c = c / a
+        d = d / a
+        e = e / a
+        a = 1
+        If e = 0 Then
+            ' One root is zero
+            x1(1) = 0
+            x1(2) = 0
+            Remainder = Cubic(a, b, c, d)
+        ElseIf b = 0 And d = 0 Then
+            'Biquartic
+            Roots = Quadratic(a, c, e)
+        ElseIf b = 0 Then
+            'Depressed Quartic
+        Else
+            'Convert into a depressed quartic
+        End If
+    End If
+End Function
