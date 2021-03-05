@@ -134,7 +134,7 @@ Public Function Quartic(a, b, c, d, e)
     Dim x3(1 To 2) As Variant
     Dim x4(1 To 2) As Variant
     If a = 0 Then
-        Cubic = Cubic(b, c, d, e)
+        Cubic_roots = Cubic(b, c, d, e)
     Else
         b = b / a
         c = c / a
@@ -151,8 +151,56 @@ Public Function Quartic(a, b, c, d, e)
             Roots = Quadratic(a, c, e)
         ElseIf b = 0 Then
             'Depressed Quartic
+            cuba = 8
+            cubb = 8 * c
+            cubc = 2 * c ^ 2 - 8 * e
+            cubd = -1 * d ^ 2
+            CubicRoots = Cubic(cuba, cubb, cubc, cubd)
+            ' The fist root will always be real
+            m = CubicRoots(1)(1)
+            Roots1 = Quadratic(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
+            Roots2 = Quadratic(1, -1 * Sqr(2 * m), c / 2 + m + d / 2 / Sqr(2 * m))
+            discriminant1 = Discriminant(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
+            discriminant2 = Discriminant(1, -1 * Sqr(2 * m), p / 2 + m + d / 2 / Sqr(2 * m))
+            If discriminant1 > discriminant2 Then
+                x1(1) = Roots1(1)(1)
+                x1(2) = Roots1(1)(2)
+                x2(1) = Roots1(2)(1)
+                x2(2) = Roots1(2)(2)
+                x3(1) = Roots2(1)(1)
+                x3(2) = Roots2(1)(2)
+                x4(1) = Roots2(2)(1)
+                x4(2) = Roots2(2)(2)
+            Else
+                x1(1) = Roots2(1)(1)
+                x1(2) = Roots2(1)(2)
+                x2(1) = Roots2(2)(1)
+                x2(2) = Roots2(2)(2)
+                x3(1) = Roots1(1)(1)
+                x3(2) = Roots1(1)(2)
+                x4(1) = Roots1(2)(1)
+                x4(2) = Roots1(2)(2)
+            End If
         Else
             'Convert into a depressed quartic
+            p = c - (3 * b ^ 2 / 8)
+            q = d + b ^ 3 / 8 - b * c / 2
+            r = e - 3 * b ^ 4 / 256 + b ^ 2 * c / 16 - b * d / 4
+
+            depressed_quartic_roots = Quartic(1, 0, p, q, r)
+            x1(1) = depressed_quartic_roots(1)(1) - b / 4
+            x2(1) = depressed_quartic_roots(2)(1) - b / 4
+            x3(1) = depressed_quartic_roots(3)(1) - b / 4
+            x4(1) = depressed_quartic_roots(4)(1) - b / 4
+            x1(2) = depressed_quartic_roots(1)(2)
+            x2(2) = depressed_quartic_roots(2)(2)
+            x3(2) = depressed_quartic_roots(3)(2)
+            x4(2) = depressed_quartic_roots(4)(2)
         End If
     End If
+    Results(1) = x1
+    Results(2) = x2
+    Results(3) = x3
+    Results(4) = x4
+    Quartic = Results
 End Function
