@@ -294,11 +294,11 @@ Public Function QuadConfVector(Ys, Xs As Range, alpha, count, Upper)
     For i = 1 To count
         Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
         Conf = QuadConfInt(Xinput(i, 1), Ys, Xs, alpha)
-	If Upper Then
+        If Upper Then
             ReturnVector(i, 1) = Forecast + Conf
         Else
             ReturnVector(i, 1) = Forecast - Conf
-	End If
+        End If
     Next i
     QuadConfVector = ReturnVector
 End Function
@@ -311,11 +311,11 @@ Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
     For i = 1 To count
         Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
     	Conf = QuadPredInt(Xinput(i, 1), Ys, Xs, alpha)
-	If Upper Then
-	    ReturnVector(i, 1) = Forecast + Conf
-	Else
-	    ReturnVector(i, 1) = Forecast - Conf
-	End If
+        If Upper Then
+            ReturnVector(i, 1) = Forecast + Conf
+        Else
+            ReturnVector(i, 1) = Forecast - Conf
+        End If
     Next i
     QuadPredVector = ReturnVector
 End Function
@@ -324,7 +324,7 @@ End Function
 ' Wrapper for the Excel Forecast function, but also accepts RTO 
 Public Function ForecastVBA(X, Ys, Xs, Optional SLR = True)
     If SLR Then
-	ForecastVBA = WorksheetFunction.Forecast(X, Ys, Xs)
+        ForecastVBA = WorksheetFunction.Forecast(X, Ys, Xs)
     Else
         LinEst = WorksheetFunction.LinEst(Ys, Xs, False, True)
         ForecastVBA = X * LinEst(1, 1)
