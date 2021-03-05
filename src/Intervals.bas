@@ -288,36 +288,36 @@ End Function
 
 'Return an array of confidence Intervals
 Public Function QuadConfVector(Ys, Xs As Range, alpha, count, Upper)
-Xinput = EqualSpace(Xs, count)
-Dim ReturnVector As Variant
-ReDim ReturnVector(1 To count, 1 To 1)
-For i = 1 To count
-    Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
-    Conf = QuadConfInt(Xinput(i, 1), Ys, Xs, alpha)
+    Xinput = EqualSpace(Xs, count)
+    Dim ReturnVector As Variant
+    ReDim ReturnVector(1 To count, 1 To 1)
+    For i = 1 To count
+        Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
+        Conf = QuadConfInt(Xinput(i, 1), Ys, Xs, alpha)
 	If Upper Then
-		ReturnVector(i, 1) = Forecast + Conf
-	Else
-		ReturnVector(i, 1) = Forecast - Conf
+            ReturnVector(i, 1) = Forecast + Conf
+        Else
+            ReturnVector(i, 1) = Forecast - Conf
 	End If
-Next i
-QuadConfVector = ReturnVector
+    Next i
+    QuadConfVector = ReturnVector
 End Function
 
 'Return an array of prediction Intervals
 Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
-	Xinput = EqualSpace(Xs, count)
-	Dim ReturnVector As Variant
-	ReDim ReturnVector(1 To count, 1 To 1)
-	For i = 1 To count
-    	Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
+    Xinput = EqualSpace(Xs, count)
+    Dim ReturnVector As Variant
+    ReDim ReturnVector(1 To count, 1 To 1)
+    For i = 1 To count
+        Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
     	Conf = QuadPredInt(Xinput(i, 1), Ys, Xs, alpha)
-		If Upper Then
-			ReturnVector(i, 1) = Forecast + Conf
-		Else
-			ReturnVector(i, 1) = Forecast - Conf
-		End If
-	Next i
-	QuadPredVector = ReturnVector
+	If Upper Then
+	    ReturnVector(i, 1) = Forecast + Conf
+	Else
+	    ReturnVector(i, 1) = Forecast - Conf
+	End If
+    Next i
+    QuadPredVector = ReturnVector
 End Function
 
 ' Function: ForecastVBA
