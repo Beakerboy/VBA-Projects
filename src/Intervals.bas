@@ -253,7 +253,49 @@ Function InversePredIntRTO(Yo, Ys, Xs, alpha, Upper, Optional q = 1)
     Xl = (Yo * b1 - Part4) / Part3
     If Upper Then InversePredIntRTO = Xu Else InversePredIntRTO = Xl
 End Function
-                                
+
+Public Function InverseQuadPredInt(Yo, Ys, Xs As Range, alpha, Upper, Optional q = 1)
+    n = WorksheetFunction.count(Xs)
+    v = n - 2
+    T = WorksheetFunction.T_Inv_2T(alpha, v)
+    LinEst = WorksheetFunction.LinEst(Ys, Vander(Xs), False, True)
+    S = WorksheetFunction.index(LinEst, 3, 2)
+    m = WorksheetFunction.index(LinEst, 1, 2)
+    b = WorksheetFunction.index(LinEst, 1, 1)
+    
+    SumX2 = WorksheetFunction.SumSq(Xs)
+    SumX3 = WorksheetFunction.SumProduct(Xs, Xs, Xs)
+    SumX4 = WorksheetFunction.SumProduct(Xs, Xs, Xs, Xs)
+    
+    det = SumX4 * SumX2 - SumX3 ^ 2
+    a = T ^ 2 * S ^ 2 / det
+    quarta = SumX2 * a - m ^ 2
+    quartb = -2 * (SumX3 * a + m * b)
+    quartc = SumX4 * a - b ^ 2 + 2 * Yo * m
+    quartd = 2 * Yo * b
+    quarte = T ^ 2 * S ^ 2 - Yo ^ 2
+    Quartic_Roots = Quartic(quarta, quartb, quartc, quartd, quarte)
+    
+    'Smallest positive root
+    Small = 0
+    If Quartic_Roots(1)(2) = 0 And Quartic_Roots(1)(1) > 0 And (Quartic_Roots(1)(1) < Small Or Small = 0) Then Small = Quartic_Roots(1)(1)
+    If Quartic_Roots(2)(2) = 0 And Quartic_Roots(2)(1) > 0 And (Quartic_Roots(2)(1) < Small Or Small = 0) Then Small = Quartic_Roots(2)(1)
+    If Quartic_Roots(3)(2) = 0 And Quartic_Roots(3)(1) > 0 And (Quartic_Roots(3)(1) < Small Or Small = 0) Then Small = Quartic_Roots(3)(1)
+    If Quartic_Roots(4)(2) = 0 And Quartic_Roots(4)(1) > 0 And (Quartic_Roots(4)(1) < Small Or Small = 0) Then Small = Quartic_Roots(4)(1)
+        
+    nextSmall = Small
+    If Quartic_Roots(1)(2) = 0 And Quartic_Roots(1)(1) > 0 And (Quartic_Roots(1)(1) < nextSmall Or nextSmall = Small) Then nextSmall = Quartic_Roots(1)(1)
+    If Quartic_Roots(2)(2) = 0 And Quartic_Roots(2)(1) > 0 And (Quartic_Roots(2)(1) < nextSmall Or nextSmall = Small) Then nextSmall = Quartic_Roots(2)(1)
+    If Quartic_Roots(3)(2) = 0 And Quartic_Roots(3)(1) > 0 And (Quartic_Roots(3)(1) < nextSmall Or nextSmall = Small) Then nextSmall = Quartic_Roots(3)(1)
+    If Quartic_Roots(4)(2) = 0 And Quartic_Roots(4)(1) > 0 And (Quartic_Roots(4)(1) < nextSmall Or nextSmall = Small) Then nextSmall = Quartic_Roots(4)(1)
+    If Upper Then
+        InverseQuadPredInt = nextSmall
+    Else
+        'Second Smallest positive root
+        InverseQuadPredInt = Small
+    End If
+End Function
+
 ' Function: ConfVector
 ' Return an array of confidence Intervals
 Public Function ConfVector(Ys, Xs, alpha, count, plusorminus, Optional SLR = False)
