@@ -310,7 +310,7 @@ Public Function QuadPredVector(Ys, Xs As Range, alpha, count, Upper)
     ReDim ReturnVector(1 To count, 1 To 1)
     For i = 1 To count
         Forecast = QuadForecastVBA(Xinput(i, 1), Ys, Xs)
-    	Conf = QuadPredInt(Xinput(i, 1), Ys, Xs, alpha)
+        Conf = QuadPredInt(Xinput(i, 1), Ys, Xs, alpha)
         If Upper Then
             ReturnVector(i, 1) = Forecast + Conf
         Else
@@ -387,8 +387,8 @@ Public Function Vander(vector As Range)
     Dim i, j As Integer
     For i = 1 To R
         For j = 1 To 2
-        Value = vector(i)
-            Arr(i, j) = Value ^ (3 - j)
+          Value = vector(i)
+          Arr(i, j) = Value ^ (3 - j)
         Next j
     Next i
     Vander = Arr
