@@ -32,14 +32,20 @@ Public Property Let Mat(vA As Variant)
     intN = UBound(vA, 2)
 End Property
 
+' Property: N
+' Get the number of rows.
 Public Property Get N() As Integer
     N = intN
 End Property
 
+' Property: M
+' Get the number of columns.
 Public Property Get M() As Integer
     M = intM
 End Property
 
+' Property: Mat
+' Get the matrix data.
 Public Property Get Mat() As Variant
     Mat = dA
 End Property
