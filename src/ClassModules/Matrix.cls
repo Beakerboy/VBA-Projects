@@ -21,6 +21,11 @@ Dim intN As Integer 'columns
 Private Sub Class_Initialize()
 End Sub
 
+' Property: Mat
+' Set the matrix data.
+'
+' Parameter:
+'   vA - A 2D array of numerical data.
 Public Property Let Mat(vA As Variant)
     dA = vA
     intM = UBound(vA, 1)
