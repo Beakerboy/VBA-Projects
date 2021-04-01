@@ -50,6 +50,10 @@ Public Property Get Mat() As Variant
     Mat = dA
 End Property
 
+' Function: isDiaginal
+' Is the matrix a diagonal matrix?
+'
+' Returns: True or False
 Public Function isDiagonal()
     If intM = intN Then
         isDiagonal = True
