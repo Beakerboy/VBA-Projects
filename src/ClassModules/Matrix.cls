@@ -1,7 +1,23 @@
+' Class: Matrix
+' Perform matrix algebra and provide matrix attributes.
+'
+' Version: 210331
+
+' Variable: dA
+' A 2D array of doubles
+' dA(intM, intN)
 Dim dA() As Variant
-Dim intM As Integer 'rows
+
+' Variable: intM
+' The number of rows in the matrix
+Dim intM As Integer
+
+' Variable: intM
+' The number of columns in the matrix
 Dim intN As Integer 'columns
 
+' Constructor: Class_Initialize
+' Initializes the object.
 Private Sub Class_Initialize()
 End Sub
 
