@@ -1,5 +1,5 @@
 ' Class: PCA
-' Perform Primary Component Analysis on a set of data
+' Perform Principal Component Analysis on a set of data
 '
 ' Version: 19091301
 
