@@ -16,3 +16,6 @@ LOESS:
   
 Violin:
   Violin Charts in Excel. Kernel Denisty estimates are produced from descrete data to produce range objects that can be plotted in a chart.
+  
+Root:
+  Root-finding methods. Currently can calculate closed form solutions to polynomials up to 4th degree.
