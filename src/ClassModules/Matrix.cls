@@ -62,6 +62,14 @@ Public Function isDiagonal()
     End If
 End Function
 
+' Function: Add
+' Perform matrix addition. Throws an error if the matrices do not have matching sizes
+'
+' Parameters:
+'   oInput - Addand
+'
+' Returns:
+'   The sum of the two matrices
 Public Function Add(oInput As Matrix) As Matrix
     If Me.M <> oInput.M Or Me.N <> oInput.N Then
         Err.Raise Number:=vbObjectError + 513, _
@@ -82,6 +90,14 @@ Public Function Add(oInput As Matrix) As Matrix
     Set Add = oResult
 End Function
 
+' Function: Subtract
+' Perform matrix subtraction. Throws an error if the matrices do not have matching sizes
+'
+' Parameters:
+'   oInput - Subtrahand
+'
+' Returns:
+'   The difference of the two matrices
 Public Function Subtract(oInput As Matrix) As Matrix
     If Me.M <> oInput.M Or Me.N <> oInput.N Then
         Err.Raise Number:=vbObjectError + 513, _
@@ -102,6 +118,14 @@ Public Function Subtract(oInput As Matrix) As Matrix
     Set Subtract = oResult
 End Function
 
+' Function: Multiply
+' Perform matrix multiplication. Throws an error if the matrices do not have compatible sizes.
+'
+' Parameters:
+'   oInput - The multiplier.
+'
+' Returns:
+'   The sum of the two matrices.
 Public Function Multiply(oInput As Matrix) As Matrix
     If Me.N <> oInput.M Then
         Err.Raise Number:=vbObjectError + 513, _
@@ -126,6 +150,14 @@ Public Function Multiply(oInput As Matrix) As Matrix
     Set Multiply = oResult
 End Function
 
+' Function: ScalarMultiply
+' Multiply a matrix by a scalar.
+'
+' Parameters:
+'   oInput - Scalar
+'
+' Returns:
+'   The product of the matrix by the scalar.
 Public Function ScalarMultiply(dInput) As Matrix
     Dim i As Integer
     Dim vProduct() As Variant
@@ -142,6 +174,14 @@ Public Function ScalarMultiply(dInput) As Matrix
     Set ScalarMultiply = oResult
 End Function
 
+' Function: ScalarDivide
+' Divide a matrix by a scalar.
+'
+' Parameters:
+    '   oInput - The scalar.
+'
+' Returns:
+'   The result of the matrix divided by the scalar.
 Public Function ScalarDivide(dInput As Double) As Matrix
     Dim i As Integer
     Dim vProduct() As Variant
@@ -159,7 +199,10 @@ Public Function ScalarDivide(dInput As Double) As Matrix
 End Function
 
 ' Function: Transpose
+' Transpose the matrix.
 '
+' Returns:
+'   A new matrix that is the transposition on this matrix.
 Public Function Transpose() As Matrix
     Dim vResult As Variant
     ReDim vResult(1 To intN, 1 To intM)
@@ -173,6 +216,14 @@ Public Function Transpose() As Matrix
     Set Transpose = oResult
 End Function
 
+' Function: GetRow
+' Extract a row from the matrix.
+'
+' Parameters:
+'   iRow - The row number.
+'
+' Returns:
+'   A vector that contains the values of the row.
 Public Function GetRow(iRow) As Vector
     Dim vResult() As Variant
     ReDim vResult(1 To intN, 1 To 1)
@@ -184,6 +235,14 @@ Public Function GetRow(iRow) As Vector
     Set GetRow = oResult
 End Function
 
+' Function: GetColumn
+' Extract a column from the matrix.
+'
+' Parameters:
+'   iCol - The column number.
+'
+' Returns:
+'   A vector that contains the values of the column.
 Public Function GetColumn(iCol) As Vector
     Dim vResult() As Variant
     ReDim vResult(1 To intM, 1 To 1)
@@ -199,10 +258,18 @@ Public Function getValue(i, j)
     getValue = dA(i, j)
 End Function
 
+' Function: AugmentRight
+' Combine two matrices, positioning the supplied matrix to the right of this matrix.
+'
+' Parameters:
+'   inMatrix - The matrix whos elements will be on the right.
+'
+' Returns:
+'   A new matrix that is the combination of this and inMatrix.
 Public Function AugmentRight(inMatrix As Matrix)
     If Me.M <> inMatrix.M Then
         Err.Raise Number:=vbObjectError + 513, _
-              Description:="Multiplication requires compatible sized matricies"
+    Description:="Augmentation requires compatible sized matricies"
     End If
     Dim vResult As Variant
     vResult = dA
@@ -216,14 +283,31 @@ Public Function AugmentRight(inMatrix As Matrix)
     Set AugmentRight = oResults
 End Function
 
+' Function: AugmentBelow
+' Combine two matrices, positioning the supplied matrix below this matrix.
+'
+' Parameters:
+'   inMatrix - The matrix whos elements will be below.
+'
+' Returns:
+'   A new matrix that is the combination of this and inMatrix.
 Public Function AugmentBelow(inMatrix As Matrix)
     Set AugmentBelow = Me.Transpose().AugmentRight(inMatrix.Transpose()).Transpose()
 End Function
 
+' Function: ReplaceColumn
+' Replace a specified column with values from a vector
+'
+' Parameters:
+'   iNum     - The column to replace.
+'   inColumn - The values to place in the matrix.
+'
+' Returns:
+'   A new matrix with replaced values in the specified column.
 Public Function ReplaceColumn(iNum, inColumn As Vector) As Matrix
     If Me.M <> inColumn.M Then
         Err.Raise Number:=vbObjectError + 513, _
-              Description:="Multiplication requires compatible sized elements"
+            Description:="Replacement requires compatible sized elements"
     End If
     vData = dA
     Dim i As Long
@@ -235,10 +319,19 @@ Public Function ReplaceColumn(iNum, inColumn As Vector) As Matrix
     Set ReplaceColumn = oResult
 End Function
 
+' Function: ReplaceRow
+' Replace a specified row with values from a vector
+'
+' Parameters:
+'   iNum     - The row to replace.
+'   inColumn - The values to place in the matrix.
+'
+' Returns:
+'   A new matrix with replaced values in the specified row.
 Public Function ReplaceRow(iNum, inRow As Vector) As Matrix
     If Me.N <> inRow.N Then
         Err.Raise Number:=vbObjectError + 513, _
-              Description:="Multiplication requires compatible sized elements"
+            Description:="Replacement requires compatible sized elements"
     End If
     vData = dA
     Dim i As Long
@@ -250,6 +343,14 @@ Public Function ReplaceRow(iNum, inRow As Vector) As Matrix
     Set ReplaceRow = oResult
 End Function
 
+' Function: ExcludeRow
+' Remove a specified row from this matrix.
+'
+' Parameters:
+'   iNum - The row to remove.
+'
+' Returns:
+'   A new matrix with the specified row removed.
 Public Function ExcludeRow(iNum) As Matrix
     'Check that row exists
     Dim oResult As New Matrix
@@ -263,6 +364,11 @@ Public Function ExcludeRow(iNum) As Matrix
     Set ExcludeRow = oResult
 End Function
 
+' Function: Trace
+' Calculate the trace of a matrix. The matrix must be square.
+'
+' Returns:
+'   The trace of the matrix.
 Public Property Get Trace()
     If intM <> intN Then
         Err.Raise Number:=vbObjectError + 513, _
@@ -271,6 +377,14 @@ Public Property Get Trace()
     Trace = GetDiagonalElements.Sum
 End Property
 
+' Function: GetDiagonalElements
+' Create a vector from the diagonal elements of this matrix.
+'
+' Returns:
+'   A vector.
+'
+' ToDo:
+'   The for loop should be i = 1 to min(intM, intN)
 Public Function GetDiagonalElements() As Vector
     Dim vResult() As Variant
     ReDim vResult(1 To intM, 1 To 1)
@@ -282,6 +396,15 @@ Public Function GetDiagonalElements() As Vector
     Set GetDiagonalElements = oResult
 End Function
 
+' Function: SwapColumns
+' Swap two columns in a matrix.
+'
+' Parameters:
+'   col1 - One of the columns to swap.
+'   col2 - The other column to swap.
+'
+' Returns:
+'   A new matrix with the specified columns swapped.
 Public Function SwapColumns(col1, col2) As Matrix
     Dim oResult As Matrix
     Set oResult = Me.ReplaceColumn(col1, Me.GetColumn(col2)).ReplaceColumn(col2, Me.GetColumn(col1))
@@ -289,6 +412,17 @@ Public Function SwapColumns(col1, col2) As Matrix
     Set SwapColumns = oResult
 End Function
 
+' Function: SubMatrix
+' Create a matrix from a subset of this matrix.
+'
+' Parameters:
+'   startm - The 1 indexed starting row for the new matrix.
+'   endm   - The 1 indexed ending row for the new matrix.
+'   startn - The 1 indexed starting column for the new matrix.
+'   endn   - The 1 indexed starting column for the new matrix.
+'
+' Returns:
+'   A new matrix with the specified elements.
 Public Function Submatrix(startm, endm, startn, endn)
     ' Check that ends are after starts and that no out of bounds
     Dim vResult As Variant
@@ -304,7 +438,18 @@ Public Function Submatrix(startm, endm, startn, endn)
     Set Submatrix = oResult
 End Function
 
+' Function: Inverse
+' Calculate the inverse of a matrix
+'
+' Returns: The matrix inverse. Currently only works for a diagonal matrix.
+'
+' ToDo:
+'   Use the minverse worksheet function.
 Public Function Inverse() As Matrix
+    If intM <> intN Then
+        Err.Raise Number:=vbObjectError + 513, _
+            Description:="Inverse Requires a square Matrix"
+    End If
     Dim vResult As Variant
     vResult = ScalarMatrix(0, intM, intM).Mat
     If isDiagonal() Then
