@@ -419,7 +419,7 @@ End Function
 '   startm - The 1 indexed starting row for the new matrix.
 '   endm   - The 1 indexed ending row for the new matrix.
 '   startn - The 1 indexed starting column for the new matrix.
-'   endn   - The 1 indexed starting column for the new matrix.
+'   endn   - The 1 indexed ending column for the new matrix.
 '
 ' Returns:
 '   A new matrix with the specified elements.
