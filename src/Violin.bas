@@ -5,7 +5,7 @@
 '   x         - The point at with the densitity is to be calculated
 '   Data      - A vector of data
 '   kernel    - Name of the preferred kernel type
-'   bandwidth - Name of the bandwidth algorithm to use
+'   bandwidth - Name of the bandwidth algorithm to use or the numerical value
 '
 ' Return:
 ' The kernel density at x.
@@ -51,7 +51,7 @@ End Function
 '   x         - The point at with the densitity is to be calculated
 '   Data      - 
 '   kernel    - Name of the preferred kernel type
-'   bandwidth - Name of the bandwidth algorithm to use
+'   bandwidth - Name of the bandwidth algorithm to use or the numerical value
 '
 ' Return:
 ' The kernel density at x.
