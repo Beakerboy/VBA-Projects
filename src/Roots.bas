@@ -1,3 +1,12 @@
+' Function: CubeRoot
+' Able to find the real cube root of a positive or negative number.
+' Usually this would reurn an error.
+'
+' Parameters:
+'    num - A real number
+'
+' Returns:
+' The cube root
 Public Function CubeRoot(num)
     If num < 0 Then
         CubeRoot = -1 * (-1 * num) ^ (1 / 3)
@@ -6,6 +15,16 @@ Public Function CubeRoot(num)
     End If
 End Function
 
+' Function: Discriminant
+' A function to determine if the roots of a quadratic are real of complex
+'
+' Parameters:
+'    a - x² coefficiant
+'    b - x  coefficient
+'    c - constant term
+'
+' Returns:
+' a real number
 Public Function Discriminant(a, b, c)
     Discriminant = b ^ 2 - (4 * a * c)
 End Function
