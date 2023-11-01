@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Beakerboy/VBA-Projects.svg?branch=master)](https://travis-ci.org/Beakerboy/VBA-Projects)
+[![Lint VBA](https://github.com/Beakerboy/VBA-Projects/actions/workflows/lint_vba.yml/badge.svg)](https://github.com/Beakerboy/VBA-Projects/actions/workflows/lint_vba.yml)
 <a href="https://beakerboy.github.io/VBA-Projects/"><img src="https://img.shields.io/badge/code-documented-green.svg"/></a>
 
 # VBA-Projects
