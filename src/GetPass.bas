@@ -19,8 +19,9 @@ Sub GetPass()
                                                 For r = a To b
                                                     For s = a To b
                                                         For t = c To d
-            .Unprotect Chr(i) & Chr(j) & Chr(k) & Chr(l) & Chr(m) & _
+                                                            Pass = Chr(i) & Chr(j) & Chr(k) & Chr(l) & Chr(m) & _
             Chr(n) & Chr(o) & Chr(p) & Chr(q) & Chr(r) & Chr(s) & Chr(t)
+                                                            .Unprotect Pass
                                                         Next t
                                                     Next s
                                                 Next r
@@ -33,7 +34,7 @@ Sub GetPass()
                     Next k
                 Next j
             Next i
-            MsgBox "Finished"
+            MsgBox Pass
         End If
     End With
 End Sub
