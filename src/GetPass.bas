@@ -1,3 +1,4 @@
+Attribute VB_Name = "GetPassMod"
 Option Explicit
 
 Sub GetPass()

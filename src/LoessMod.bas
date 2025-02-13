@@ -1,3 +1,4 @@
+Attribute VB_Name = "LoessMod"
 ' Function: Diagonal
 ' Produces a diagonal matrix from a vector
 '

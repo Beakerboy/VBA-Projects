@@ -1,3 +1,4 @@
+Attribute VB_Name = "Intervals"
 ' Statistical Intervals
 '
 ' ConfInt        - The Confidence Interval of y=mx+b or y=mx
