@@ -1,3 +1,4 @@
+Attribute VB_Name = "EllipseMod"
 ' Function: Ellipse
 ' Given a set of data, produce a confidence ellipse at a given standard deviation
 '
