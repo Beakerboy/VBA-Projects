@@ -1,3 +1,4 @@
+Attribute VB_Name = "Outliers"
 'Given a column of data, calculate the Grubbs Score
 'G = Max|Xi-Xbar| / sigma
 Public Function GrubbsScore(Data)
