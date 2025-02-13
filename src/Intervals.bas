@@ -21,7 +21,7 @@ Attribute VB_Name = "Intervals"
 '
 ' Returns:
 '   An interval in the Y direction above or below the line of best-fit
-Public Function ConfInt(x, Ys, Xs, alpha, Optional SLR = TRUE)
+Public Function ConfInt(x, Ys, Xs, alpha, Optional SLR = True)
     Count = WorksheetFunction.Count(Xs)
     'v=degrees of freedom
     v = Count
@@ -62,7 +62,7 @@ End Function
 '
 ' Returns:
 '   An interval in the Y direction above or below the regression line of best-fit
-Function PredInt(x, Ys, Xs, alpha, Optional SLR = TRUE, Optional q = 1)
+Function PredInt(x, Ys, Xs, alpha, Optional SLR = True, Optional q = 1)
     Count = WorksheetFunction.Count(Xs)
     'v=degrees of freedom
     v = Count
