@@ -1,3 +1,4 @@
+Attribute VB_Name = "ViolinChart"
 ' Function: KernelDensity
 ' Calculate the kernel density of a set of data at a point, x
 '
