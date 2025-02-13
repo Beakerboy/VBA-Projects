@@ -1,3 +1,4 @@
+Attribute VB_Name = "Rangeif"
 'Return the subset of range2 where range1 meets the specified condition
 'range1 - an excel range
 'condition - the value to match
