@@ -402,7 +402,7 @@ Public Function EqualSpace(VectorObject, count)
         ReturnVector(i, 1) = Min + Delta * (i - 1)
     Next i
     EqualSpace = ReturnVector
-End Function				
+End Function
 
 ' Function: HatMatrix
 Public Function HatMatrix(Xs, index1, index2)
