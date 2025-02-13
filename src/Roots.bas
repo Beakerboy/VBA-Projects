@@ -1,3 +1,4 @@
+Attribute VB_Name = "Roots"
 ' Function: CubeRoot
 ' Able to find the real cube root of a positive or negative number.
 ' Usually this would reurn an error.
