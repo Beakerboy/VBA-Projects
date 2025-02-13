@@ -177,3 +177,55 @@ Public Function Violin(Data, Optional XorY = "Y", Optional Position = 1, Optiona
         Violin = XVector
     End If
 End Function
+
+' Function: LogViolin
+' Create a Violin Chart
+'
+' Parameters:
+'   Data          - a range of data
+'   XorY          - return the X or Y range
+'   Position      - for multiple datasets, where to position the center on the x axis
+'   ScalingFactor - The amount to scale the width of the violin to prevent overlap
+'
+' Returns:
+'    An array of Values.
+'
+' ToDo: Possibly combine X and Y vectors into a 2D list. I can't see why someone would want only one.
+Public Function LogViolin(Data, Optional XorY = "Y", Optional Position = 1, Optional ScalingFactor = 1)
+    mu = WorksheetFunction.Average(Data)
+    sigma = WorksheetFunction.StDev(Data)
+    mu_l = Math.Log(mu / Math.Sqr(1 + sigma ^ 2 / mu ^ 2))
+    sigma_l = Math.Sqr(Math.Log(1 + sigma ^ 2 / mu ^ 2))
+    ' Take the log of each value
+    Dim Data_L As Variant
+    Size = WorksheetFunction.Count(Data)
+    ReDim Data_L(1 To Size, 1 To 1)
+    For i = 1 To Size
+        Data_L(i, 1) = Math.Log(Data(i))
+    Next i
+    Dim YVector As Variant
+    ReDim YVector(1 To 72, 1 To 1)
+    y = mu_l - 4 * sigma_l
+    For i = 1 To 36
+        YVector(i, 1) = y
+        YVector(73 - i, 1) = y
+        y = y + sigma_l / 5
+    Next i
+    If XorY = "Y" Then
+        Dim YVector_L As Variant
+        ReDim YVector_L(1 To 72, 1 To 1)
+        For i = 1 To 72
+            YVector_L(i, 1) = Math.Exp(YVector(i, 1))
+        Next i
+        LogViolin = YVector_L
+    Else
+        Dim XVector As Variant
+        ReDim XVector(1 To 72, 1 To 1)
+        For i = 1 To 36
+            x = KernelDensity(YVector(i, 1), Data_L) / ScalingFactor / 3 / Math.Exp(YVector(i, 1))
+            XVector(i, 1) = Position - x
+            XVector(73 - i, 1) = Position + x
+        Next i
+        LogViolin = XVector
+    End If
+End Function
