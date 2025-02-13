@@ -175,10 +175,10 @@ Function InverseConfInt(Yo, Ys, Xs, alpha, SLR, Upper)
     If SLR = False Then v = v + 1
     t = WorksheetFunction.T_Inv_2T(alpha, v)
     LinEst = WorksheetFunction.LinEst(Ys, Xs, SLR, True)
-    b1 = WorksheetFunction.Index(LinEst, 1,1)
+    b1 = WorksheetFunction.Index(LinEst, 1, 1)
     beta = WorksheetFunction.Index(LinEst, 2, 1)
     S = WorksheetFunction.Index(LinEst, 3, 2)
-    Sum = (S / beta)^ 2
+    Sum = (S / beta) ^ 2
 
     Xbar = WorksheetFunction.Average(Xs)
     Ybar = WorksheetFunction.Average(Ys)
@@ -387,7 +387,7 @@ End Function
 Public Function QuadForecastVBA(X, Ys, Xs As Range)
     LinEst = WorksheetFunction.LinEst(Ys, Vander(Xs), False, True)
     QuadForecastVBA = X * LinEst(1, 1) + X ^ 2 * LinEst(1, 2)
-End Function                                
+End Function
 
 ' Function: EqualSpace
 ' Return an array of {count} number of points eqaly spaced along the span of VectorObject
