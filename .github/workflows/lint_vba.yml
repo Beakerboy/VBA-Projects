@@ -15,6 +15,6 @@ jobs:
     - name: Lint
       uses: Vba-actions/lint-vba@v1
     - name: ASCII
-      run: python -c "import non_ascii; find_non_ascii('./src/Modules/Roots.bas')"
+      run: python -c "import non_ascii; non_ascii.find_non_ascii('./src/Modules/Roots.bas')"
     - name: Test
       uses: Vba-actions/test-vba@dev
