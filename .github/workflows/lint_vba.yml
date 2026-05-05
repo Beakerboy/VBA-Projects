@@ -15,5 +15,6 @@ jobs:
     - name: Lint
       uses: Vba-actions/lint-vba@v1
     - name: Test
-      env: COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       uses: Vba-actions/test-vba@coverage
