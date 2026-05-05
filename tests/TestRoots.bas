@@ -3,7 +3,7 @@ Sub TestCubeRoot()
     Result = CubeRoot(-1)
     Comp = (Result = -1)
     Debug.Assert Comp
-Emd Sub
+End Sub
 
 Sub TestDiscriminant()
     Result = Discriminant(1, 2, 3)
