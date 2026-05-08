@@ -1,11 +1,12 @@
 Attribute VB_NAME = "TestRoots"
 Sub TestCubeRoot()
-    Result = CubeRoot(-1)
-    Comp = (Result = -1)
-    Debug.Assert Comp
+    Debug.Assert CubeRoot(-1) = -1
+End Sub
+
+Sub TestCubeRoot()
+    Debug.Assert CubeRoot(1) = 1
 End Sub
 
 Sub TestDiscriminant()
-    Result = Discriminant(1, 2, 3)
-    Debug.Assert (Result = -8)
+    Debug.Assert Discriminant(1, 2, 3) = -8
 End Sub
