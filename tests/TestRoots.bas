@@ -1,9 +1,9 @@
 Attribute VB_NAME = "TestRoots"
-Sub TestCubeRoot()
+Sub TestNegativeCubeRoot()
     Debug.Assert CubeRoot(-1) = -1
 End Sub
 
-Sub TestCubeRoot()
+Sub TestPositiveCubeRoot()
     Debug.Assert CubeRoot(1) = 1
 End Sub
 
