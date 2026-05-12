@@ -8,7 +8,7 @@ Public Function GrubbsScore(Data)
     Max = 0
     Dim i As Integer
     For i = 1 To Number
-        Value = Data(i, 1)
+        Value = Data(i)
         Absvalue = Value - Average
         If Absvalue < 0 Then
             Absvalue = Absvalue * -1
