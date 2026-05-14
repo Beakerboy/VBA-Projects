@@ -7,12 +7,9 @@ Public Function GrubbsScore(Data)
     Number = WorksheetFunction.Count(Data)
     Max = 0
     Dim i As Integer
-    For i = 1 To Number
+    For i = 1 To Number - 1
         Value = Data(i)
-        Absvalue = Value - Average
-        If Absvalue < 0 Then
-            Absvalue = Absvalue * -1
-        End If
+        Absvalue = Abs(Value - Average)
         If Value <> "" And Absvalue > Max Then
             Max = Absvalue
         End If
