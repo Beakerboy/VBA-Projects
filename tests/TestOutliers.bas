@@ -8,6 +8,11 @@ Sub TestGrubbsScore()
 End Sub
 
 Sub TestCriticalGrubbs()
+    Result = CriticalGrubbs(.95, 10)
+    Debug.Assert Result = 0.71
+End Sub
+
+Sub TestCriticalDixon()
     Result = CriticalDixonQ(5, .95)
     Debug.Assert Result = 0.71
 End Sub
