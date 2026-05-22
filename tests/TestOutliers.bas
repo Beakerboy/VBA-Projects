@@ -23,7 +23,9 @@ Sub TestDixonScore()
 End Sub
 
 Sub TestCriticalDixon()
+    Dim Result As Double
     Result = CriticalDixonQ(5, .95)
+    Dim Expected As Double
     Expected = 0.71
     vbatest_msg = "Received: " & Result & " Expected: " & Expected
     Debug.Assert Result = Expected
