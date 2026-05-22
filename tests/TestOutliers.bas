@@ -17,7 +17,7 @@ End Sub
 Sub TestDixonScore()
     Data = Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
     Result = DixonQScore(Data)
-    Expected = .111111111111111
+    Expected = .1111111111111111
     vbatest_msg = "Received: " & Result & " Expected: " & Expected
     Debug.Assert Result = Expected
 End Sub
