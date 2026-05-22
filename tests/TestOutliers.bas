@@ -24,12 +24,12 @@ End Sub
 
 Sub TestCriticalDixon()
     Result = CriticalDixonQ(5, .95)
-    Expected = .71
+    Expected = 0.71
     vbatest_msg = "Received: " & Result & " Expected: " & Expected
     Debug.Assert Result = Expected
 
     Result = CriticalDixonQ(5, .99)
-    Expected = .821
+    Expected = 0.821
     vbatest_msg = "Received: " & Result & " Expected: " & Expected
     Debug.Assert Result = Expected
 End Sub
