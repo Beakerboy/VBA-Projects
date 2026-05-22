@@ -8,7 +8,7 @@ Sub TestGrubbsScore()
 End Sub
 
 Sub TestCriticalGrubbs()
-    Result = CriticalGrubbs(10, 5)
+    Result = CriticalGrubbs(10, .95)
     Expected = 1.2856344242159952
     vbatest_msg = "Received: " & Result & " Expected: " & Expected
     Debug.Assert Result = Expected
