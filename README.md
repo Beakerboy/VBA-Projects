@@ -1,4 +1,5 @@
 [![Lint VBA](https://github.com/Beakerboy/VBA-Projects/actions/workflows/lint_vba.yml/badge.svg)](https://github.com/Beakerboy/VBA-Projects/actions/workflows/lint_vba.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Beakerboy/VBA-Projects/badge.svg)](https://coveralls.io/github/Beakerboy/VBA-Projects)
 <a href="https://beakerboy.github.io/VBA-Projects/"><img src="https://img.shields.io/badge/code-documented-green.svg"/></a>
 
 # VBA-Projects
