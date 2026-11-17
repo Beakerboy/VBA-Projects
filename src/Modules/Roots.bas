@@ -65,7 +65,7 @@ Public Function Quadratic(a, b, c) As Variant()
     Results(2) = 2
 '    Results(1) = x1
 '    Results(2) = x2
-'    Quadratic = Results
+    Quadratic = Results
 End Function
 
 ' Function: Cubic
