@@ -42,7 +42,7 @@ End Function
 ' An array of complex numbers of the form (r, i)
 Public Function Quadratic(a, b, c)
 
-'    Dim Results(1 To 2) As Variant
+    Dim Results(1 To 2) As Variant
 '    Dim x1(1 To 2) As Variant
 '    Dim x2(1 To 2) As Variant
 '    If a = 0 Then
