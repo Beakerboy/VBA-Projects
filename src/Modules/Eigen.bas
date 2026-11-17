@@ -100,12 +100,12 @@ Function EIGEN_JK(M) As Variant
 '        Next j
 '    Next i
 '    EIGEN_JK = Ematrix
-    Exit Function
+'    Exit Function
     
-EndProc:
-        MsgBox prompt:="Error in function EIGEN_JK!" & vbCr & vbCr & _
-            "Error: " & Err.Description & ".", Buttons:=48, _
-            Title:="Run time error!"
+'EndProc:
+'        MsgBox prompt:="Error in function EIGEN_JK!" & vbCr & vbCr & _
+'            "Error: " & Err.Description & ".", Buttons:=48, _
+'            Title:="Run time error!"
 End Function
 
 'Private Function getColumn(A, c)
