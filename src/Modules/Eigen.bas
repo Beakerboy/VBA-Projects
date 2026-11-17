@@ -1,9 +1,9 @@
 Attribute VB_Name = "Eigen"
-Private Function JKeigen(R As Range)
-    Dim Arr() As Variant ' declare an unallocated array.
-    Arr = Range(R.Address) ' Arr is now an allocated array
-    JKeigen = EIGEN_JK(Arr)
-End Function
+'Private Function JKeigen(R As Range)
+'    Dim Arr() As Variant ' declare an unallocated array.
+'    Arr = Range(R.Address) ' Arr is now an allocated array
+'    JKeigen = EIGEN_JK(Arr)
+'End Function
 
 ' Function: Eigen
 ' Computes the eigenvalues and eigenvectors for a real symmetric positive
