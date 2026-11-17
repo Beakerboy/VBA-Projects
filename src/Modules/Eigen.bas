@@ -20,7 +20,8 @@ Attribute VB_Name = "Eigen"
 '   KAISER,H.F. (1972) "THE JK METHOD: A PROCEDURE FOR FINDING THE
 '   EIGENVALUES OF A REAL SYMMETRIC MATRIX", The Computer Journal, VOL.15,
 '   271-273.
-Function EIGEN_JK(M) As Variant
+Function EIGEN_JK(M)
+'Function EIGEN_JK(M) As Variant
 
 '    Dim A() As Variant, Ematrix() As Double
 '    Dim i As Long, j As Long, k As Long, iter As Long, p As Long
