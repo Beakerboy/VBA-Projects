@@ -40,9 +40,9 @@ End Function
 '
 ' Returns:
 ' An array of complex numbers of the form (r, i)
-Public Function Quadratic(a, b, c) As Variant()
+Public Function Quadratic(a, b, c)
 
-    Dim Results(1 To 2) As Variant
+'    Dim Results(1 To 2) As Variant
 '    Dim x1(1 To 2) As Variant
 '    Dim x2(1 To 2) As Variant
 '    If a = 0 Then
@@ -61,11 +61,11 @@ Public Function Quadratic(a, b, c) As Variant()
 '            x2(2) = 0
 '        End If
 '    End If
-    Results(1) = 1
-    Results(2) = 2
+'    Results(1) = 1
+'    Results(2) = 2
 '    Results(1) = x1
 '    Results(2) = x2
-    Quadratic = Results
+    Quadratic = 1
 End Function
 
 ' Function: Cubic
