@@ -43,27 +43,29 @@ End Function
 Public Function Quadratic(a, b, c) As Variant()
 
     Dim Results(1 To 2) As Variant
-    Dim x1(1 To 2) As Variant
-    Dim x2(1 To 2) As Variant
-    If a = 0 Then
-        Quadratic = -1 * c / b
-    Else
-        Descrim = Discriminant(a, b, c)
-        If Descrim < 0 Then
-            x1(1) = -1 * b / 2 / a
-            x1(2) = -1 * Sqr(-1 * Descrim) / 2 / a
-            x2(1) = -1 * b / 2 / a
-            x2(2) = Sqr(-1 * Descrim) / 2 / a
-        Else
-            x1(1) = (-1 * b - Sqr(Descrim)) / 2 / a
-            x1(2) = 0
-            x2(1) = (-1 * b + Sqr(Descrim)) / 2 / a
-            x2(2) = 0
-        End If
-    End If
-    Results(1) = x1
-    Results(2) = x2
-    Quadratic = Results
+'    Dim x1(1 To 2) As Variant
+'    Dim x2(1 To 2) As Variant
+'    If a = 0 Then
+'        Quadratic = -1 * c / b
+'    Else
+ '       Descrim = Discriminant(a, b, c)
+'        If Descrim < 0 Then
+'            x1(1) = -1 * b / 2 / a
+'            x1(2) = -1 * Sqr(-1 * Descrim) / 2 / a
+'            x2(1) = -1 * b / 2 / a
+'            x2(2) = Sqr(-1 * Descrim) / 2 / a
+'        Else
+'            x1(1) = (-1 * b - Sqr(Descrim)) / 2 / a
+'            x1(2) = 0
+'            x2(1) = (-1 * b + Sqr(Descrim)) / 2 / a
+'            x2(2) = 0
+'        End If
+'    End If
+    Results(1) = 1
+    Results(2) = 2
+'    Results(1) = x1
+'    Results(2) = x2
+'    Quadratic = Results
 End Function
 
 ' Function: Cubic
