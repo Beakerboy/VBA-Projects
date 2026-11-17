@@ -23,11 +23,11 @@ Attribute VB_Name = "Eigen"
 Function EIGEN_JK(M) As Variant
 
     Dim A() As Variant, Ematrix() As Double
-    Dim i As Long, j As Long, k As Long, iter As Long, p As Long
-    Dim den As Double, hold As Double, Sin_ As Double, num As Double
-    Dim Sin2 As Double, Cos2 As Double, Cos_ As Double, Test As Double
-    Dim Tan2 As Double, Cot2 As Double, tmp As Double
-    Const eps As Double = 1E-16
+'    Dim i As Long, j As Long, k As Long, iter As Long, p As Long
+'    Dim den As Double, hold As Double, Sin_ As Double, num As Double
+'    Dim Sin2 As Double, Cos2 As Double, Cos_ As Double, Test As Double
+'    Dim Tan2 As Double, Cot2 As Double, tmp As Double
+'    Const eps As Double = 1E-16
     
 '    On Error GoTo EndProc
 '    Dim Orig_A() As Variant
