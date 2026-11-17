@@ -22,7 +22,7 @@ Attribute VB_Name = "Eigen"
 '   271-273.
 Function EIGEN_JK(M) As Variant
 
-    Dim A() As Variant, Ematrix() As Double
+'    Dim A() As Variant, Ematrix() As Double
 '    Dim i As Long, j As Long, k As Long, iter As Long, p As Long
 '    Dim den As Double, hold As Double, Sin_ As Double, num As Double
 '    Dim Sin2 As Double, Cos2 As Double, Cos_ As Double, Test As Double
