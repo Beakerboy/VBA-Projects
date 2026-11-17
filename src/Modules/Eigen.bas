@@ -100,6 +100,7 @@ Function EIGEN_JK(M)
 '            Ematrix(j, i + 1) = A(j, i) / Abs(Ematrix(i, 1))
 '        Next j
 '    Next i
+    EIGEN_JK = 1
 '    EIGEN_JK = Ematrix
 '    Exit Function
     
