@@ -131,7 +131,7 @@ Sub TestCubicCmplx()
 End Sub
 
 Sub TestQuarticLinear()
-    Result = Quadratic(0, 0, 0, 1, -1)
+    Result = Quartic(0, 0, 0, 1, -1)
     Size = UBound(Result) - LBound(Result) + 1
     vbatest_msg = "Received: " & Size & " Expected: 1"
     Debug.Assert Size = 1
@@ -143,7 +143,7 @@ Sub TestQuarticLinear()
 End Sub
 
 Sub TestQuarticRealEqual()
-    Result = Quadratic(1, 4, 6, 4, 1)
+    Result = Quartic(1, 4, 6, 4, 1)
     Size = UBound(Result) - LBound(Result) + 1
     vbatest_msg = "Received: " & Size & " Expected: 4"
     Debug.Assert Size = 4
