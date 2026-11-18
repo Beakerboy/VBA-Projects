@@ -55,7 +55,7 @@ Sub TestQuadraticLinear()
 End Sub
 
 Sub TestCubicQuadratic()
-    Result = Cubicc(0, 1, -2, 1)
+    Result = Cubic(0, 1, -2, 1)
     Size = UBound(Result) - LBound(Result) + 1
     Debug.Assert Size = 2
     Root = Result(1)
@@ -71,7 +71,7 @@ Sub TestCubicQuadratic()
 End Sub
 
 Sub TestCubicReal()
-    Result = Cubicc(1, 3, 3, 1)
+    Result = Cubic(1, 3, 3, 1)
     Size = UBound(Result) - LBound(Result) + 1
     Debug.Assert Size = 3
     Root = Result(1)
