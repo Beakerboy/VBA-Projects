@@ -15,6 +15,6 @@ jobs:
     - name: Lint
       uses: Vba-actions/lint-vba@v1
     - name: Test
-      uses: Vba-actions/test-vba@dev
+      uses: Vba-actions/test-vba@v1.0.0
       with:
         github_token: ${{ secrets.COVERALLS_REPO_TOKEN }}
