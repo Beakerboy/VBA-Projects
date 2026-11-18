@@ -46,7 +46,7 @@ Public Function Quadratic(a, b, c) As Variant()
     Dim x1(1 To 2) As Variant
     Dim x2(1 To 2) As Variant
     If a = 0 Then
-        Quadratic = -1 * c / b
+        Quadratic = Array(-1 * c / b)
     Else
         Descrim = Discriminant(a, b, c)
         If Descrim < 0 Then
