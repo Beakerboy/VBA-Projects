@@ -153,14 +153,14 @@ End Function
 ' Returns:
 ' An array of complex numbers of the form (r, i)
 Public Function Quartic(a, b, c, d, e)
-    Dim Results(1 To 4) As Variant
-    Dim x1(1 To 2) As Variant
-    Dim x2(1 To 2) As Variant
-    Dim x3(1 To 2) As Variant
-    Dim x4(1 To 2) As Variant
     If a = 0 Then
         Cubic_roots = Cubic(b, c, d, e)
     Else
+        Dim Results(1 To 4) As Variant
+        Dim x1(1 To 2) As Variant
+        Dim x2(1 To 2) As Variant
+        Dim x3(1 To 2) As Variant
+        Dim x4(1 To 2) As Variant
         b = b / a
         c = c / a
         d = d / a
@@ -222,10 +222,10 @@ Public Function Quartic(a, b, c, d, e)
             x3(2) = depressed_quartic_roots(3)(2)
             x4(2) = depressed_quartic_roots(4)(2)
         End If
+        Results(1) = x1
+        Results(2) = x2
+        Results(3) = x3
+        Results(4) = x4
+        Quartic = Results
     End If
-    Results(1) = x1
-    Results(2) = x2
-    Results(3) = x3
-    Results(4) = x4
-    Quartic = Results
 End Function
