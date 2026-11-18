@@ -64,9 +64,9 @@ Public Function Quadratic(a, b, c) As Variant()
             x2(1) = (-1 * b + Sqr(Descrim)) / 2 / a
             x2(2) = 0
         End If
+        Results(2) = x2
     End If
     Results(1) = x1
-    Results(2) = x2
     Quadratic = Results
 End Function
 
