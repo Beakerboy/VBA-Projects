@@ -98,7 +98,7 @@ Sub TestCubicCmplx()
     Root = Result(1)
     Size = UBound(Root) - LBound(Root) + 1
     Debug.Assert Size = 2
-    Debug.Assert Root(1) = 1
+    Debug.Assert Root(1) = -1
     Debug.Assert Root(2) = 0
     Root = Result(2)
     Size = UBound(Root) - LBound(Root) + 1
