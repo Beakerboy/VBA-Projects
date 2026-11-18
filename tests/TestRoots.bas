@@ -28,7 +28,7 @@ Sub TestQuadraticReal()
 End Sub
 
 Sub TestQuadraticCmplx()
-    Result = Quadratic(1, -2, 1)
+    Result = Quadratic(1, 1, 1)
     Size = UBound(Result) - LBound(Result) + 1
     Debug.Assert Size = 2
     Root = Result(1)
