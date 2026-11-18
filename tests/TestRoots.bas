@@ -36,4 +36,9 @@ Sub TestQuadraticCmplx()
     Debug.Assert Size = 2
     Debug.Assert Root(1) = 0
     Debug.Assert Root(2) = -1
+    Root = Result(2)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = 1
 End Sub
