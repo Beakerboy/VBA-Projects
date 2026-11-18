@@ -49,7 +49,23 @@ Sub TestQuadraticLinear()
     Debug.Assert Size = 1
     Root = Result(1)
     Size = UBound(Root) - LBound(Root) + 1
-    'Debug.Assert Size = 2
-    'Debug.Assert Root(1) = 1
-    'Debug.Assert Root(2) = 0
+    Debug.Assert Size = 2
+    Debug.Assert Root(1) = 1
+    Debug.Assert Root(2) = 0
+End Sub
+
+Sub TestCubicQuadratic()
+    Result = Cubicc(0, 1, -2, 1)
+   Size = UBound(Result) - LBound(Result) + 1
+    Debug.Assert Size = 2
+    Root = Result(1)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    Debug.Assert Root(1) = 1
+    Debug.Assert Root(2) = 0
+    Root = Result(2)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    Debug.Assert Root(1) = 1
+    Debug.Assert Root(2) = 0
 End Sub
