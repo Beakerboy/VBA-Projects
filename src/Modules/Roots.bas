@@ -51,7 +51,7 @@ Public Function Quadratic(a, b, c) As Variant()
         Quadratic = Results
     Else
         Dim Results(1 To 2) As Variant
-            Dim x2(1 To 2) As Variant
+        Dim x2(1 To 2) As Variant
         Descrim = Discriminant(a, b, c)
         If Descrim < 0 Then
             x1(1) = -1 * b / 2 / a
