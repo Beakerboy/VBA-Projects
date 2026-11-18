@@ -82,13 +82,13 @@ End Function
 ' Returns:
 ' An array of complex numbers of the form (r, i)
 Public Function Cubic(a, b, c, d)
-    Dim Results(1 To 3) As Variant
-    Dim x1(1 To 2) As Variant
-    Dim x2(1 To 2) As Variant
-    Dim x3(1 To 2) As Variant
     If a = 0 Then
         Cubic = Quadratic(b, c, d)
     Else
+        Dim Results(1 To 3) As Variant
+        Dim x1(1 To 2) As Variant
+        Dim x2(1 To 2) As Variant
+        Dim x3(1 To 2) As Variant
         b = b / a
         c = c / a
         d = d / a
@@ -132,11 +132,12 @@ Public Function Cubic(a, b, c, d)
                 x3(2) = Quad(2)(2)
             End If
         End If
+        Results(1) = x1
+        Results(2) = x2
+        Results(3) = x3
+        Cubic = Results
     End If
-    Results(1) = x1
-    Results(2) = x2
-    Results(3) = x3
-    Cubic = Results
+
 End Function
 
 ' Function: Quartic
