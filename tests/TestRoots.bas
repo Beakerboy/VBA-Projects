@@ -15,7 +15,7 @@ Sub TestQuadratic()
     Result = Quadratic(1, 2, 1)
     Size = UBound(Result) - LBound(Result) + 1
     Debug.Assert Size = 2
-    Root1 = Result(0)
+    Root1 = Result(1)
     Size = UBound(Root1) - LBound(Root1) + 1
     Debug.Assert Size = 2
 End Sub
