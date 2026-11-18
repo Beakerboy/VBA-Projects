@@ -11,7 +11,7 @@ jobs:
     name: Test and Static Analysis
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - name: Lint
       uses: Vba-actions/lint-vba@v1
     - name: Test
