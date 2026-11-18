@@ -154,7 +154,7 @@ End Function
 ' An array of complex numbers of the form (r, i)
 Public Function Quartic(a, b, c, d, e)
     If a = 0 Then
-        Cubic_roots = Cubic(b, c, d, e)
+        Quartic = Cubic(b, c, d, e)
     Else
         Dim Results(1 To 4) As Variant
         Dim x1(1 To 2) As Variant
