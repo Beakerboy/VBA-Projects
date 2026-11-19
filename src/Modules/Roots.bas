@@ -101,7 +101,7 @@ Public Function Cubic(a, b, c, d)
         Descrim = Q ^ 3 + R ^ 2
         If Descrim < 0 Then
             'All unique real Roots
-            Theta = Application.Acos(R / Sqr((-1 * Q) ^ 3))
+            Theta = WorksheetFunction.Acos(R / Sqr((-1 * Q) ^ 3))
             sqrt2q = 2 * Sqr(-1 * Q)
             p = Application.Pi()
 
