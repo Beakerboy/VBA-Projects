@@ -103,7 +103,7 @@ Public Function Cubic(a, b, c, d)
             'All unique real Roots
             Theta = WorksheetFunction.Acos(R / Sqr((-1 * Q) ^ 3))
             sqrt2q = 2 * Sqr(-1 * Q)
-            p = Application.Pi()
+            p = WorksheetFunction.Pi()
 
             x1(1) = sqrt2q * Cos(Theta / 3) - (b / 3)
             x2(1) = sqrt2q * Cos((Theta + 2 * p) / 3) - (b / 3)
