@@ -187,7 +187,7 @@ Public Function Quartic(a, b, c, d, e)
                     x1(2) = 0
                 Else
                     x1(1) = 0
-                    x1(2) = Sqr(Roots(1)(1))
+                    x1(2) = Sqr(-1 * Roots(1)(1))
                 End If
             Else
                 cmplx_abs = Sqr(Roots(1)(1) ^ 2 + Roots(1)(2) ^ 2)
@@ -202,7 +202,7 @@ Public Function Quartic(a, b, c, d, e)
                     x3(2) = 0
                 Else
                     x3(1) = 0
-                    x3(2) = Sqr(Roots(2)(1))
+                    x3(2) = Sqr(-1 * Roots(2)(1))
                 End If
             Else
                 cmplx_abs = Sqr(Roots(2)(1) ^ 2 + Roots(2)(2) ^ 2)
