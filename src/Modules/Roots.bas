@@ -182,7 +182,7 @@ Public Function Quartic(a, b, c, d, e)
             'Biquartic
             Roots = Quadratic(a, c, e)
             If Roots(1)(2) = 0 Then
-                If Roots(1)(1) >= Then
+                If Roots(1)(1) >= 0 Then
                     x1(1) = Sqr(Roots(1)(1))
                     x1(2) = 0
                 Else
@@ -197,7 +197,7 @@ Public Function Quartic(a, b, c, d, e)
             x2(1) = -1 * x1(1)
             x2(2) = -1 * x1(2)
             If Roots(2)(2) = 0 Then
-                If Roots(1)(1) >= Then
+                If Roots(1)(1) >= 0 Then
                     x3(1) = Sqr(Roots(2)(1))
                     x3(2) = 0
                 Else
