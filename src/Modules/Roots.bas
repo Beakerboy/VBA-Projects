@@ -223,7 +223,7 @@ Public Function Quartic(a, b, c, d, e)
             Roots1 = Quadratic(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
             Roots2 = Quadratic(1, -1 * Sqr(2 * m), c / 2 + m + d / 2 / Sqr(2 * m))
             discriminant1 = Discriminant(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
-            discriminant2 = Discriminant(1, -1 * Sqr(2 * m), p / 2 + m + d / 2 / Sqr(2 * m))
+            discriminant2 = Discriminant(1, -1 * Sqr(2 * m), c / 2 + m + d / 2 / Sqr(2 * m))
             If discriminant1 > discriminant2 Then
                 x1(1) = Roots1(1)(1)
                 x1(2) = Roots1(1)(2)
