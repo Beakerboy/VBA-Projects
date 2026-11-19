@@ -172,6 +172,12 @@ Public Function Quartic(a, b, c, d, e)
             x1(1) = 0
             x1(2) = 0
             Remainder = Cubic(a, b, c, d)
+            x2(1) = Remainder(1)(1)
+            x2(2) = Remainder(1)(2)
+            x3(1) = Remainder(2)(1)
+            x3(2) = Remainder(2)(2)
+            x4(1) = Remainder(3)(1)
+            x4(2) = Remainder(3)(2)
         ElseIf b = 0 And d = 0 Then
             'Biquartic
             Roots = Quadratic(a, c, e)
