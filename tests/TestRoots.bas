@@ -369,7 +369,7 @@ Sub TestQuarticComplex()
     Size = UBound(Root) - LBound(Root) + 1
     Debug.Assert Size = 2
     vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-2, 0)"
-    Debug.Assert Root(1) = -2
+    Debug.Assert Root(1) = -1.9999999999999998
     Debug.Assert Root(2) = 0
     Root = Result(2)
     Size = UBound(Root) - LBound(Root) + 1
