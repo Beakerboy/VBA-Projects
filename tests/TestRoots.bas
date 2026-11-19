@@ -136,6 +136,33 @@ Sub TestCubicCmplx()
     Debug.Assert Root(2) = 1
 End Sub
 
+Sub TestCubicUniqueReal()
+    Result = Cubic(1, 0, 1, 0)
+    Size = UBound(Result) - LBound(Result) + 1
+    Debug.Assert Size = 3
+    Root = Result(1)
+    Size = UBound(Root) - LBound(Root) + 1
+    vbatest_msg = "Received: " & Size & " Expected: 2"
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (0, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = 0
+    Root = Result(2)
+    Size = UBound(Root) - LBound(Root) + 1
+    vbatest_msg = "Received: " & Size & " Expected: 2"
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-1, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = -1
+    Root = Result(3)
+    Size = UBound(Root) - LBound(Root) + 1
+    vbatest_msg = "Received: " & Size & " Expected: 2"
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (1, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = 1
+End Sub
+
 Sub TestQuarticLinear()
     Result = Quartic(0, 0, 0, 1, -1)
     Size = UBound(Result) - LBound(Result) + 1
