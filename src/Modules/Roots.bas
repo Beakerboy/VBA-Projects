@@ -181,6 +181,9 @@ Public Function Quartic(a, b, c, d, e)
         ElseIf b = 0 And d = 0 Then
             'Biquartic
             Roots = Quadratic(a, c, e)
+            cmplx_abs1 = Sqr(Roots(1)(1) ^ 2 +  Roots(1)(2) ^ 2)
+            x1(1) = Sqr((Roots(1)(1) + cmplx_abs1) / 2)
+            x1(2) = Roots(1)(2) / Abs(Roots(1)(2)) * Sqr((Roots(1)(1) - cmplx_abs1) / 2)
         ElseIf b = 0 Then
             'Depressed Quartic
             cuba = 8
