@@ -181,21 +181,33 @@ Public Function Quartic(a, b, c, d, e)
         ElseIf b = 0 And d = 0 Then
             'Biquartic
             Roots = Quadratic(a, c, e)
-            cmplx_abs1 = Sqr(Roots(1)(1) ^ 2 + Roots(1)(2) ^ 2)
-            x1(1) = Sqr((Roots(1)(1) + cmplx_abs1) / 2)
-            If Roots(1)(2) <> 0 Then
-                x1(2) = Roots(1)(2) / Abs(Roots(1)(2)) * Sqr((cmplx_abs1 - Roots(1)(1)) / 2)
+            If Roots(1)(2) = 0 Then
+                If Roots(1)(1) >= Then
+                    x1(1) = Sqr(Roots(1)(1))
+                    x1(2) = 0
+                Else
+                    x1(1) = 0
+                    x1(2) = Sqr(Roots(1)(1))
+                End If
             Else
-                x1(2) = Sqr((cmplx_abs1 - Roots(1)(1)) / 2)
+                cmplx_abs = Sqr(Roots(1)(1) ^ 2 + Roots(1)(2) ^ 2)
+                x1(1) = Sqr((Roots(1)(1) + cmplx_abs) / 2)
+                x1(2) = Roots(1)(2) / Abs(Roots(1)(2)) * Sqr((cmplx_abs - Roots(1)(1)) / 2)
             End If
             x2(1) = -1 * x1(1)
             x2(2) = -1 * x1(2)
-            cmplx_abs2 = Sqr(Roots(2)(1) ^ 2 + Roots(2)(2) ^ 2)
-            x3(1) = Sqr((Roots(2)(1) + cmplx_abs2) / 2)
-            If Roots(2)(2) <> 0 Then
-                x3(2) = Roots(2)(2) / Abs(Roots(2)(2)) * Sqr((cmplx_abs1 - Roots(2)(1)) / 2)
+            If Roots(2)(2) = 0 Then
+                If Roots(1)(1) >= Then
+                    x3(1) = Sqr(Roots(2)(1))
+                    x3(2) = 0
+                Else
+                    x3(1) = 0
+                    x3(2) = Sqr(Roots(2)(1))
+                End If
             Else
-                x3(2) = Sqr((cmplx_abs1 - Roots(2)(1)) / 2)
+                cmplx_abs = Sqr(Roots(2)(1) ^ 2 + Roots(2)(2) ^ 2)
+                x3(1) = Sqr((Roots(2)(1) + cmplx_abs) / 2)
+                x3(2) = Roots(2)(2) / Abs(Roots(2)(2)) * Sqr((cmplx_abs - Roots(2)(1)) / 2)
             End If
             x4(1) = -1 * x3(1)
             x4(2) = -1 * x3(2)
