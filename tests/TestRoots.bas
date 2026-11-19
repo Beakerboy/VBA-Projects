@@ -267,7 +267,7 @@ Sub TestQuarticOneZero()
     Debug.Assert Root(2) = 0
 End Sub
 
-Sub TestBiQuartic()
+Sub TestBiQuarticReal()
     Result = Quartic(1, 0, -5, 0, 4)
     Size = UBound(Result) - LBound(Result) + 1
     vbatest_msg = "Received: " & Size & " Expected: 4"
@@ -296,4 +296,35 @@ Sub TestBiQuartic()
     vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-2, 0)"
     Debug.Assert Root(1) = -2
     Debug.Assert Root(2) = 0
+End Sub
+
+Sub TestBiQuarticImaginary()
+    Result = Quartic(1, 0, 5, 0, 4)
+    Size = UBound(Result) - LBound(Result) + 1
+    vbatest_msg = "Received: " & Size & " Expected: 4"
+    Debug.Assert Size = 4
+    Root = Result(1)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (1, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = 1
+    Root = Result(2)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-1, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = -1
+    Root = Result(3)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (2, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = 2
+    Root = Result(4)
+    Size = UBound(Root) - LBound(Root) + 1
+    Debug.Assert Size = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-2, 0)"
+    Debug.Assert Root(1) = 0
+    Debug.Assert Root(2) = -2
 End Sub
