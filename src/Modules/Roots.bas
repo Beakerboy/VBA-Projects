@@ -42,7 +42,7 @@ End Function
 Public Function Linear(a, b) As Variant()
     Dim x1(1 To 2) As Variant
     Dim Results(1 To 1) As Variant
-    x1(1) = -1 * c / b
+    x1(1) = -1 * b / a
     x1(2) = 0
     Results(1) = x1
     Linear = Results
