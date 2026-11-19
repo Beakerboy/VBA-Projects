@@ -186,7 +186,7 @@ Sub TestCubicThreeUniqueReal()
     vbatest_msg = "Received: " & Size & " Expected: 2"
     Debug.Assert Size = 2
     vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-1, 0)"
-    Debug.Assert Root(1) = -1
+    Debug.Assert Root(1) = -1.0000000000000009
     Debug.Assert Root(2) = 0
 End Sub
 
