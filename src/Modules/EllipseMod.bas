@@ -224,10 +224,11 @@ End Function
 Function UnitCircle(NumPoints)
     Dim ReturnVector As Variant
     ReDim ReturnVector(1 To NumPoints, 1 To 2)
-    Pi = WorksheetFunction.Pi()
-    For i = 1 To NumPoints
-        ReturnVector(i, 1) = Math.Cos(2 * Pi * i / (NumPoints - 1))
-        ReturnVector(i, 2) = Math.Sin(2 * Pi * i / (NumPoints - 1))
-    Next i
-    UnitCircle = ReturnVector
+    'Pi = WorksheetFunction.Pi()
+    'For i = 1 To NumPoints
+    '    ReturnVector(i, 1) = Math.Cos(2 * Pi * i / (NumPoints - 1))
+    '    ReturnVector(i, 2) = Math.Sin(2 * Pi * i / (NumPoints - 1))
+    'Next i
+    'UnitCircle = ReturnVector
+    UnitCircle = 1
 End Function
