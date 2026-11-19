@@ -218,31 +218,17 @@ Public Function Quartic(a, b, c, d, e)
             cubc = 2 * c ^ 2 - 8 * e
             cubd = -1 * d ^ 2
             CubicRoots = Cubic(cuba, cubb, cubc, cubd)
-            ' The first root will always be real
             m = CubicRoots(1)(1)
             Roots1 = Quadratic(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
             Roots2 = Quadratic(1, -1 * Sqr(2 * m), c / 2 + m + d / 2 / Sqr(2 * m))
-            discriminant1 = Discriminant(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
-            discriminant2 = Discriminant(1, -1 * Sqr(2 * m), c / 2 + m + d / 2 / Sqr(2 * m))
-            If discriminant1 > discriminant2 Then
-                x1(1) = Roots1(1)(1)
-                x1(2) = Roots1(1)(2)
-                x2(1) = Roots1(2)(1)
-                x2(2) = Roots1(2)(2)
-                x3(1) = Roots2(1)(1)
-                x3(2) = Roots2(1)(2)
-                x4(1) = Roots2(2)(1)
-                x4(2) = Roots2(2)(2)
-            Else
-                x1(1) = Roots2(1)(1)
-                x1(2) = Roots2(1)(2)
-                x2(1) = Roots2(2)(1)
-                x2(2) = Roots2(2)(2)
-                x3(1) = Roots1(1)(1)
-                x3(2) = Roots1(1)(2)
-                x4(1) = Roots1(2)(1)
-                x4(2) = Roots1(2)(2)
-            End If
+            x1(1) = Roots2(1)(1)
+            x1(2) = Roots2(1)(2)
+            x2(1) = Roots2(2)(1)
+            x2(2) = Roots2(2)(2)
+            x3(1) = Roots1(1)(1)
+            x3(2) = Roots1(1)(2)
+            x4(1) = Roots1(2)(1)
+            x4(2) = Roots1(2)(2)
         Else
             'Convert into a depressed quartic
             p = c - (3 * b ^ 2 / 8)
