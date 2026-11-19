@@ -30,6 +30,24 @@ Public Function Discriminant(a, b, c)
     Discriminant = b ^ 2 - (4 * a * c)
 End Function
 
+' Function: Linear
+' Find the root of a line
+'
+' Parameters:
+'    a - x  coefficient
+'    b - constant term
+'
+' Returns:
+' An array of complex numbers of the form (r, i)
+Public Function Linear(a, b) As Variant()
+    Dim x1(1 To 2) As Variant
+    Dim Results(1 To 1) As Variant
+    x1(1) = -1 * c / b
+    x1(2) = 0
+    Results(1) = x1
+    Linear = Results
+End Function
+
 ' Function: Quadratic
 ' Find the roots of a 2nd order polynomial
 '
@@ -41,17 +59,12 @@ End Function
 ' Returns:
 ' An array of complex numbers of the form (r, i)
 Public Function Quadratic(a, b, c) As Variant()
-
-    Dim x1(1 To 2) As Variant
     If a = 0 Then
-        Dim Results(1 To 1) As Variant
-        x1(1) = -1 * c / b
-        x1(2) = 0
-        Results(1) = x1
-        Quadratic = Results
+        Quadratic = Linear(b, c)
     Else
-        Dim Results(1 To 2) As Variant
+        Dim x1(1 To 2) As Variant
         Dim x2(1 To 2) As Variant
+        Dim Results(1 To 2) As Variant
         Descrim = Discriminant(a, b, c)
         If Descrim < 0 Then
             x1(1) = -1 * b / 2 / a
@@ -70,17 +83,6 @@ Public Function Quadratic(a, b, c) As Variant()
     Quadratic = Results
 End Function
 
-' Function: Cubic
-' Find the roots of a 3rd order polynomial
-'
-' Parameters:
-'    a - x³ coefficiant
-'    b - x² coefficient
-'    c - x  coefficient
-'    d - constant term
-'
-' Returns:
-' An array of complex numbers of the form (r, i)
 Public Function Cubic(a, b, c, d)
     If a = 0 Then
         Cubic = Quadratic(b, c, d)
@@ -137,7 +139,6 @@ Public Function Cubic(a, b, c, d)
         Results(3) = x3
         Cubic = Results
     End If
-
 End Function
 
 ' Function: Quartic
