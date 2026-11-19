@@ -124,7 +124,7 @@ Public Function Cubic(a, b, c, d)
                 x1(1) = S + T - b / 3
                 x1(2) = 0
                 quadb = b + x1(1)
-                quadc = c + quadb + x1(1)
+                quadc = c + quadb * x1(1)
                 Quad = Quadratic(1, quadb, quadc)
                 x2(1) = Quad(1)(1)
                 x2(2) = Quad(1)(2)
