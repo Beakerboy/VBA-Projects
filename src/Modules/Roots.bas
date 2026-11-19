@@ -182,7 +182,7 @@ Public Function Quartic(a, b, c, d, e)
             cubc = 2 * c ^ 2 - 8 * e
             cubd = -1 * d ^ 2
             CubicRoots = Cubic(cuba, cubb, cubc, cubd)
-            ' The fist root will always be real
+            ' The first root will always be real
             m = CubicRoots(1)(1)
             Roots1 = Quadratic(1, Sqr(2 * m), c / 2 + m - d / 2 / Sqr(2 * m))
             Roots2 = Quadratic(1, -1 * Sqr(2 * m), c / 2 + m + d / 2 / Sqr(2 * m))
