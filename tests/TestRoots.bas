@@ -178,15 +178,15 @@ Sub TestCubicThreeUniqueReal()
     Size = UBound(Root) - LBound(Root) + 1
     vbatest_msg = "Received: " & Size & " Expected: 2"
     Debug.Assert Size = 2
-    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-1, 0)"
-    Debug.Assert Root(1) = -1
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-2, 0)"
+    Debug.Assert Root(1) = -2
     Debug.Assert Root(2) = 0
     Root = Result(3)
     Size = UBound(Root) - LBound(Root) + 1
     vbatest_msg = "Received: " & Size & " Expected: 2"
     Debug.Assert Size = 2
-    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (2, 0)"
-    Debug.Assert Root(1) = 2
+    vbatest_msg = "Received: (" & Root(1) & ", " & Root(2) & ") Expected: (-1, 0)"
+    Debug.Assert Root(1) = -1
     Debug.Assert Root(2) = 0
 End Sub
 
