@@ -164,7 +164,7 @@ Sub TestCubicOneZeroTwoReal()
 End Sub
 
 Sub TestCubicThreeUniqueReal()
-    Result = Cubic(1, 2, -1, -1)
+    Result = Cubic(1, 2, -1, -2)
     Size = UBound(Result) - LBound(Result) + 1
     Debug.Assert Size = 3
     Root = Result(1)
