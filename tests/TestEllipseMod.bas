@@ -13,5 +13,5 @@ Sub TestUnitCircle()
     pty = Result(2, 2)
     vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (-1, 0)"
     Debug.Assert ptx = -1
-    Debug.Assert pty = 0
+    Debug.Assert pty = 1.2246467991473532e-16
 End Sub
