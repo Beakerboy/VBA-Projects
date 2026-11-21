@@ -219,8 +219,18 @@ Function Diagonal(VectorObject)
     Diagonal = ReturnMatrix
 End Function
 
-'produce a unit circle with the number of points specified.
-'the zero point is produced twice for ease of plotting
+' Function: UnitCircle
+'
+' Generates Cartesian coordinates (x, y) for a unit circle divided into the
+' specified number of points. The starting/ending point is duplicated so the
+' circle closes cleanly when plotted.
+'
+' Parameters:
+'   NumPoints - The total number of coordinate pairs to generate (must be > 1).
+'
+' Returns:
+'   A 1-based, two-dimensional Double array of size (1 To NumPoints, 1 To 2),
+'   where column 1 contains x-coordinates and column 2 contains y-coordinates.
 Function UnitCircle(NumPoints)
     Dim ReturnVector() As Double
     ReDim ReturnVector(1 To NumPoints, 1 To 2)
