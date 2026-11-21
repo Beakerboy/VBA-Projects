@@ -7,11 +7,11 @@ Sub TestUnitCircle()
     ptx = Result(1, 1)
     pty = Result(1, 2)
     vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (0, 0)"
-    Assert ptx = 0
-    Assert pty = 0
+    Debug.Assert ptx = 0
+    Debug.Assert pty = 0
     ptx = Result(2, 1)
     pty = Result(2, 2)
     vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (0, 1)"
-    Assert ptx = 0
-    Assert pty = 1
+    Debug.Assert ptx = 0
+    Debug.Assert pty = 1
 End Sub
