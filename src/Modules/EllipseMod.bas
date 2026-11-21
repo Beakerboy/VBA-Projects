@@ -222,9 +222,9 @@ End Function
 'produce a unit circle with the number of points specified.
 'the zero point is produced twice for ease of plotting
 Function UnitCircle(NumPoints)
-    Dim ReturnVector As Variant
+    Dim ReturnVector() As Double
     ReDim ReturnVector(1 To NumPoints, 1 To 2)
-    Pi = WorksheetFunction.Pi
+    Pi = WorksheetFunction.Pi()
     For i = 1 To NumPoints
         ReturnVector(i, 1) = Math.Cos(2 * Pi * i / (NumPoints - 1))
         ReturnVector(i, 2) = Math.Sin(2 * Pi * i / (NumPoints - 1))
