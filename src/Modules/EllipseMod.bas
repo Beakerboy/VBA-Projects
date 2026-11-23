@@ -100,20 +100,20 @@ End Function
 ' Sample Covarience Matrix
 Function CovarienceMatrix(Data)
     Y = Application.Index(Data, , 2)
-    Count = Application.WorksheetFunction.Count(Y)
+    Count = WorksheetFunction.Count(Y)
 
     OnesM = ScalerMatrix(1, Count, Count)
 
     'Average the columns
-    PartA = Application.WorksheetFunction.MMult(OnesM, Data)
+    PartA = WorksheetFunction.MMult(OnesM, Data)
     PartAScale = bsxfun("divide", PartA, Count)
 
     'Center the data by subtracting the averages
     PartB = bsxfun2("minus", Data, PartAScale)
 
-    PartBprime = Application.WorksheetFunction.Transpose(PartB)
+    PartBprime = WorksheetFunction.Transpose(PartB)
 
-    PartC = Application.WorksheetFunction.MMult(PartBprime, PartB)
+    PartC = WorksheetFunction.MMult(PartBprime, PartB)
     PartD = bsxfun("divide", PartC, Count - 1)
     CovarienceMatrix = PartD
 End Function
