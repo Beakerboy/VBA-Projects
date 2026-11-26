@@ -99,7 +99,7 @@ End Function
 ' Function: CovarienceMatrix
 ' Sample Covarience Matrix
 Function CovarienceMatrix(Data)
-    Y = Application.Index(Data, , 2)
+    Y = WorksheetFunction.Index(Data, , 2)
     Count = WorksheetFunction.Count(Y)
 
     OnesM = ScalerMatrix(1, Count, Count)
