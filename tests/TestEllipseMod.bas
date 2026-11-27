@@ -146,7 +146,7 @@ Sub TestCovarienceMatrix1()
     Data(1, 1) = 1: Data(1, 2) = 2
     Data(2, 1) = 3: Data(2, 2) = 4
     Data(3, 1) = 5: Data(3, 2) = 8
-    Result = WorksheetFunction.Index(Data, , 1
+    Result = WorksheetFunction.Index(Data, , 1)
     Debug.Assert UBound(Result) = 3
 End Sub
 
