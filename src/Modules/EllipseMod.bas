@@ -99,21 +99,21 @@ End Function
 ' Function: CovarienceMatrix
 ' Sample Covarience Matrix
 Function CovarienceMatrix(Data)
-    Y = Application.Index(Data, , 2)
-    Count = Application.WorksheetFunction.Count(Y)
+    Y = WorksheetFunction.Index(Data, , 2)
+    Count = WorksheetFunction.Count(Y)
 
     OnesM = ScalerMatrix(1, Count, Count)
 
     'Average the columns
-    PartA = Application.WorksheetFunction.MMult(OnesM, Data)
+    PartA = WorksheetFunction.MMult(OnesM, Data)
     PartAScale = bsxfun("divide", PartA, Count)
 
     'Center the data by subtracting the averages
     PartB = bsxfun2("minus", Data, PartAScale)
 
-    PartBprime = Application.WorksheetFunction.Transpose(PartB)
+    PartBprime = WorksheetFunction.Transpose(PartB)
 
-    PartC = Application.WorksheetFunction.MMult(PartBprime, PartB)
+    PartC = WorksheetFunction.MMult(PartBprime, PartB)
     PartD = bsxfun("divide", PartC, Count - 1)
     CovarienceMatrix = PartD
 End Function
@@ -219,10 +219,20 @@ Function Diagonal(VectorObject)
     Diagonal = ReturnMatrix
 End Function
 
-'produce a unit circle with the number of points specified.
-'the zero point is produced twice for ease of plotting
+' Function: UnitCircle
+'
+' Generates Cartesian coordinates (x, y) for a unit circle divided into the
+' specified number of points. The starting/ending point is duplicated so the
+' circle closes cleanly when plotted.
+'
+' Parameters:
+'   NumPoints - The total number of coordinate pairs to generate (must be > 1).
+'
+' Returns:
+'   A 1-based, two-dimensional Double array of size (1 To NumPoints, 1 To 2),
+'   where column 1 contains x-coordinates and column 2 contains y-coordinates.
 Function UnitCircle(NumPoints)
-    Dim ReturnVector As Variant
+    Dim ReturnVector() As Double
     ReDim ReturnVector(1 To NumPoints, 1 To 2)
     Pi = WorksheetFunction.Pi
     For i = 1 To NumPoints
