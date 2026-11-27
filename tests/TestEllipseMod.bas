@@ -151,7 +151,7 @@ Sub TestCovarienceMatrix1()
 End Sub
 
 Sub TestPi()
-    Debug.Assert WorksheetFunction.Pi() = 3.14
+    Debug.Assert WorksheetFunction.Pi = 3.14
 End Sub
 
 'Sub TestCovarienceMatrix()
