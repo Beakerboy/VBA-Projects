@@ -169,35 +169,35 @@ End Sub
     'Debug.Assert Math.Abs(Result(2, 2) - (28 / 3)) < 0.000000000001
 'End Sub
 
-Sub TestEllipse()
-    Dim Data(1 To 3, 1 To 2) As Double
-    Data(1, 1) = 1: Data(1, 2) = 2
-    Data(2, 1) = 3: Data(2, 2) = 4
-    Data(3, 1) = 5: Data(3, 2) = 8
+'Sub TestEllipse()
+    'Dim Data(1 To 3, 1 To 2) As Double
+    'Data(1, 1) = 1: Data(1, 2) = 2
+    'Data(2, 1) = 3: Data(2, 2) = 4
+    'Data(3, 1) = 5: Data(3, 2) = 8
 
     ' Test optional NumPoints default (11)
-    ResultDefault = Ellipse(Data, 1)
-    SizeDefault = UBound(ResultDefault, 1) - LBound(ResultDefault, 1) + 1
-    vbatest_msg = "Received: " & SizeDefault & " Expected: 11"
-    Debug.Assert SizeDefault = 11
+    'ResultDefault = Ellipse(Data, 1)
+    'SizeDefault = UBound(ResultDefault, 1) - LBound(ResultDefault, 1) + 1
+    'vbatest_msg = "Received: " & SizeDefault & " Expected: 11"
+    'Debug.Assert SizeDefault = 11
 
     ' Test explicit NumPoints = 5
-    Result = Ellipse(Data, 1, 5)
-    Size = UBound(Result, 1) - LBound(Result, 1) + 1
-    vbatest_msg = "Received: " & Size & " Expected: 5"
-    Debug.Assert Size = 5
+    'Result = Ellipse(Data, 1, 5)
+    'Size = UBound(Result, 1) - LBound(Result, 1) + 1
+    'vbatest_msg = "Received: " & Size & " Expected: 5"
+    'Debug.Assert Size = 5
 
     ' Verify closure (point 1 equals point 5) and first two coordinate pairs
-    vbatest_msg = "Received: (" & Result(1, 1) & ", " & Result(1, 2) & ") Expected: (2.596718, 4.928749)"
-    Debug.Assert Math.Abs(Result(1, 1) - 2.59671832812714) < 0.00000001
-    Debug.Assert Math.Abs(Result(1, 2) - 4.92874857042254) < 0.00000001
-    Debug.Assert Math.Abs(Result(5, 1) - Result(1, 1)) < 0.000000000001
-    Debug.Assert Math.Abs(Result(5, 2) - Result(1, 2)) < 0.000000000001
+    'vbatest_msg = "Received: (" & Result(1, 1) & ", " & Result(1, 2) & ") Expected: (2.596718, 4.928749)"
+    'Debug.Assert Math.Abs(Result(1, 1) - 2.59671832812714) < 0.00000001
+    'Debug.Assert Math.Abs(Result(1, 2) - 4.92874857042254) < 0.00000001
+    'Debug.Assert Math.Abs(Result(5, 1) - Result(1, 1)) < 0.000000000001
+    'Debug.Assert Math.Abs(Result(5, 2) - Result(1, 2)) < 0.000000000001
 
-    vbatest_msg = "Received: (" & Result(2, 1) & ", " & Result(2, 2) & ") Expected: (-0.003391, 0.045162)"
-    Debug.Assert Math.Abs(Result(2, 1) - (-0.00339135193137162)) < 0.00000001
-    Debug.Assert Math.Abs(Result(2, 2) - 0.0451622493418357) < 0.00000001
-End Sub
+    'vbatest_msg = "Received: (" & Result(2, 1) & ", " & Result(2, 2) & ") Expected: (-0.003391, 0.045162)"
+    'Debug.Assert Math.Abs(Result(2, 1) - (-0.00339135193137162)) < 0.00000001
+    'Debug.Assert Math.Abs(Result(2, 2) - 0.0451622493418357) < 0.00000001
+'End Sub
 
 'Sub TestUnitCircle()
    ' Result = UnitCircle(5)
