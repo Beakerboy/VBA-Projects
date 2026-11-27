@@ -150,10 +150,6 @@ Sub TestCovarienceMatrix1()
     Debug.Assert 3 = 3
 End Sub
 
-Sub TestPi()
-    Debug.Assert WorksheetFunction.Pi = 3.14
-End Sub
-
 'Sub TestCovarienceMatrix()
     'Dim Data(1 To 3, 1 To 2) As Double
     'Data(1, 1) = 1: Data(1, 2) = 2
@@ -199,19 +195,19 @@ End Sub
     'Debug.Assert Math.Abs(Result(2, 2) - 0.0451622493418357) < 0.00000001
 'End Sub
 
-'Sub TestUnitCircle()
-   ' Result = UnitCircle(5)
-   ' Size = UBound(Result) - LBound(Result) + 1
-   ' vbatest_msg = "Received: " & Size & " Expected: 5"
-   ' Debug.Assert Size = 5
-  '  ptx = Result(1, 1)
-   ' pty = Result(1, 2)
-   ' vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (0, 1)"
-   ' Debug.Assert ptx = 6.123233995736766e-17
-  '  Debug.Assert pty = 1
-   ' ptx = Result(2, 1)
-   ' pty = Result(2, 2)
-   ' vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (-1, 0)"
-   ' Debug.Assert ptx = -1
-   ' Debug.Assert pty = 1.2246467991473532e-16
-'End Sub
+Sub TestUnitCircle()
+    Result = UnitCircle(5)
+    Size = UBound(Result) - LBound(Result) + 1
+    vbatest_msg = "Received: " & Size & " Expected: 5"
+    Debug.Assert Size = 5
+    ptx = Result(1, 1)
+    pty = Result(1, 2)
+    vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (0, 1)"
+    Debug.Assert ptx = 6.123233995736766e-17
+    Debug.Assert pty = 1
+    ptx = Result(2, 1)
+    pty = Result(2, 2)
+    vbatest_msg = "Received: (" & ptx & ", " & pty & ") Expected: (-1, 0)"
+    Debug.Assert ptx = -1
+    Debug.Assert pty = 1.2246467991473532e-16
+End Sub
